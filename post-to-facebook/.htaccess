@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Skip existing files
+RewriteCond %{REQUEST_FILENAME} !-f
+# Skip existing folders
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite clean URL to .html
+RewriteRule ^(.+)$ $1.html [L]

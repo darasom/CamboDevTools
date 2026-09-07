@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="fav.png" />
+    <link rel="apple-touch-icon" href="fav-apple.png" />
+    <link rel="apple-touch-icon-precomposed" href="fav-apple.png" />
+    <title>Free Image Compressor & Resizer Online</title>
+    <meta name="description"
+        content="Compress and resize images online for free. Reduce JPG, PNG, WebP file size instantly with no upload. Fast, secure, and works in your browser.">
+    <link rel="canonical" href="https://cambodev.site/image-compressor-resizer">
+
+    <meta property="og:url" content="https://cambodev.site/image-compressor-resizer">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Free Image Compressor & Resizer Online">
+    <meta property="og:description"
+        content="Compress and resize images online for free. Reduce JPG, PNG, WebP file size instantly with no upload. Fast, secure, and works in your browser.">
+    <meta property="og:image" content="https://cambodev.site/image-compressor-resizer/fav.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="cambodev.site/image-compressor-resizer">
+    <meta property="twitter:url" content="https://cambodev.site/image-compressor-resizer">
+    <meta name="twitter:title" content="Free Image Compressor & Resizer Online">
+    <meta name="twitter:description"
+        content="Compress and resize images online for free. Reduce JPG, PNG, WebP file size instantly with no upload. Fast, secure, and works in your browser.">
+    <meta name="twitter:image" content="https://cambodev.site/image-compressor-resizer/fav.png">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.min.js"
+        integrity="sha512-nKXmKvJyiGQy343jatQlzDprflyB5c+tKCzGP3Uq67v+lmzfnZUi/ZT+fc6ITZfSC5HhaBKUIvr/nTLCV+7F+Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+        integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
+        integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.2.1/compressor.min.js"
+        integrity="sha512-MgYeYFj8R3S6rvZHiJ1xA9cM/VDGcT4eRRFQwGA7qDP7NHbnWKNmAm28z0LVjOuUqjD0T9JxpDMdVqsZOSHaSA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WGWMREG6E8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-WGWMREG6E8');
+    </script>
+
+    <style>
+        body {
+            background: #f5f7fb;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .upload-box {
+            display: block;
+            border: 2px dashed #d0d5dd;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #fafafa;
+        }
+
+        .upload-box:hover {
+            border-color: #0d6efd;
+            background: #f0f6ff;
+        }
+
+        .preview-img {
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+        }
+
+        .btn-primary {
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        .title {
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card p-4 w-100" style="margin-top: 20px; margin-bottom: 20px;">
+            <h1 class="text-center title">Free Image Compressor & Resizer</h1>
+            <p class="text-center subtitle">Compress JPG, PNG, and WebP images online without losing quality.</p>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center d-none" id="top-ads">
+        <div class="card p-4 w-100" style="margin-top: 20px; margin-bottom: 20px;">
+            <h3 class="text-center title">Put GoogleAds Here</h3>
+            <p class="text-center subtitle">GoogleAds</p>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card p-4 w-100">
+
+            <!-- <h3 class="text-center title">Image Compressor</h3>
+            <p class="text-center subtitle">Select an image and compress it instantly in your browser</p> -->
+
+            <form>
+                <label class="upload-box mt-3">
+                    <input type="file" id="imageInput" accept="image/*" hidden>
+                    <div>
+                        <div style="font-size: 40px;">🖼️</div>
+                        <div class="mt-2">Click or drag image here ...</div>
+                    </div>
+                </label>
+
+                <div class="d-flex flex-row flex-wrap align-items-center justify-content-center gap-6 mt-3">
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="qualityRange" class="form-label mb-0 flex-shrink-0">Quality:</label>
+                        <input type="range" class="form-range w-auto" id="qualityRange" min="10" max="100" step="10"
+                            value="80" style="flex-grow: 1; max-width: 150px;">
+                        <span id="qualityValue" class="flex-shrink-0" style="min-width: 45px;">80 %</span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="maxWidthRange" class="form-label mb-0 flex-shrink-0">Max Width:</label>
+                        <input type="range" class="form-range w-auto" id="maxWidthRange" min="100" max="10000"
+                            step="100" value="8000" style="flex-grow: 1; max-width: 150px;">
+                        <span id="maxWidthValue" class="flex-shrink-0" style="min-width: 70px;">8000 px</span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label for="retainExif" class="form-label mb-0 flex-shrink-0">Retain EXIF:</label>
+                        <input type="checkbox" class="form-check-input" id="retainExif" style="flex-shrink: 0;"
+                            title="Keep sensitive EXIF metadata (such as geolocation, camera model, copyright, date, etc)">
+                    </div>
+
+                </div>
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary mt-4 px-4" id="btnCompress">
+                        <i class="bi bi-magic me-2"></i> Compress Image
+                    </button>
+                </div>
+            </form>
+
+            <div class="row mt-4 g-3">
+                <div class="col-md-6 text-center">
+                    <p class="subtitle">Original</p>
+                    <img src="image-preview.png" id="imageInputPreview" class="preview-img" alt="Original Image Preview" loading="lazy" />
+                    <p id="originalName" class="subtitle mt-2 d-none"></p>
+                    <p id="originalSize" class="subtitle mt-2 d-none"></p>
+                    <p id="originalDimensions" class="subtitle d-none"></p>
+                    <button id="openimageInputPreview" class="btn btn-outline-primary mt-2 d-none"><i
+                            class="bi bi-box-arrow-up-right me-2"></i> Open Image</button>
+                </div>
+                <div class="col-md-6 text-center">
+                    <p class="subtitle">Compressed</p>
+                    <img src="image-preview.png" id="imageOutput" class="preview-img" alt="Compressed Image Preview" loading="lazy" />
+                    <p id="compressedName" class="subtitle mt-2 d-none"></p>
+                    <p id="compressedSize" class="subtitle mt-2 d-none"></p>
+                    <p id="compressedDimensions" class="subtitle d-none"></p>
+                    <button id="openimageOutput" class="btn btn-outline-primary mt-2 d-none"><i
+                            class="bi bi-box-arrow-up-right me-2"></i> Open Image</button>
+                    <button id="downloadCompressed" class="btn btn-success mt-2 d-none"><i
+                            class="bi bi-download me-2"></i> Download</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center d-none" id="bottom-ads">
+        <div class="card p-4 w-100" style="margin-top: 20px; margin-bottom: 20px;">
+            <h3 class="text-center title">Put Adstera Here</h3>
+            <p class="text-center subtitle">Adstera</p>
+        </div>
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card p-4 w-100" style="margin-top: 20px; margin-bottom: 20px;">
+            <h2>How to Compress Images</h2>
+            <ul>
+                <li>Select your image</li>
+                <li>Choose compression level</li>
+                <li>Click "Compress Image"</li>
+                <li>Download compressed file</li>
+            </ul>
+
+            <h2>Why Use Our Image Compressor?</h2>
+            <p>Our tool works directly in your browser. No upload needed, ensuring privacy and speed.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('btnCompress').addEventListener('click', () => {
+                const imageInput = document.getElementById('imageInput');
+                if (imageInput.files.length > 0) {
+                    handleImageUpload({ target: imageInput });
+                } else {
+                    alert('Please select an image to compress!');
+                }
+            });
+        });
+        document.getElementById('imageInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const img = new Image();
+            img.onload = () => {
+                const originalName = document.getElementById('originalName');
+                originalName.textContent = `Name: ${file.name}`;
+                originalName.classList.remove('d-none');
+
+                const originalSize = document.getElementById('originalSize');
+                originalSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
+                originalSize.classList.remove('d-none');
+
+                const originalDimensions = document.getElementById('originalDimensions');
+                originalDimensions.textContent = `Dimensions: ${img.width} x ${img.height}`;
+                originalDimensions.classList.remove('d-none');
+
+                URL.revokeObjectURL(img.src); // clean up
+            };
+            img.src = URL.createObjectURL(file);
+
+            // Show original image preview
+            const originalPreview = document.getElementById('imageInputPreview');
+            originalPreview.src = URL.createObjectURL(file);
+            originalPreview.classList.remove('d-none');
+
+            const compressedPreview = document.getElementById('imageOutput');
+            compressedPreview.src = null; // Clear previous compressed image
+            compressedPreview.classList.add('d-none');
+
+            const openCompressedBtn = document.getElementById('openimageOutput');
+            openCompressedBtn.classList.add('d-none');
+            const downloadBtn = document.getElementById('downloadCompressed');
+            downloadBtn.classList.add('d-none');
+
+            const openOriginalBtn = document.getElementById('openimageInputPreview');
+            openOriginalBtn.classList.remove('d-none');
+            openOriginalBtn.onclick = () => {
+                window.open(originalPreview.src, '_blank');
+            };
+        });
+
+        function compressImage(file) {
+            return new Promise((resolve, reject) => {
+                new Compressor(file, {
+                    quality: document.getElementById('qualityRange').value / 100,
+                    maxWidth: document.getElementById('maxWidthRange').value,
+                    maxHeight: document.getElementById('maxWidthRange').value,
+                    retainExif: document.getElementById('retainExif').checked,
+                    mimeType: 'image/jpeg',
+                    success(result) {
+                        resolve(result);
+                    },
+                    error(err) {
+                        reject(err);
+                    }
+                });
+            });
+        }
+
+        let compressedFileName = '';
+        handleImageUpload = async function (event) {
+            const imageFile = event.target.files[0];
+            if (imageFile) {
+                try {
+                    const compressedFile = await compressImage(imageFile)
+
+                    // Show compressed image preview
+                    const compressedPreview = document.getElementById('imageOutput');
+                    compressedPreview.src = URL.createObjectURL(compressedFile);
+                    compressedPreview.classList.remove('d-none');
+
+                    const img = new Image();
+                    img.onload = () => {
+                        compressedFile.name = compressedFile.name.replace(/(\.[^.]+)$/, '_compressed$1');
+                        compressedFileName = compressedFile.name;
+                        const compressedName = document.getElementById('compressedName');
+                        compressedName.textContent = `Name: ${compressedFile.name}`;
+                        compressedName.classList.remove('d-none');
+
+                        const compressedSize = document.getElementById('compressedSize');
+                        compressedSize.textContent = `Size: ${(compressedFile.size / 1024).toFixed(2)} KB`;
+                        compressedSize.classList.remove('d-none');
+
+                        const compressedDimensions = document.getElementById('compressedDimensions');
+                        compressedDimensions.textContent = `Dimensions: ${img.width} x ${img.height}`;
+                        compressedDimensions.classList.remove('d-none');
+
+                        URL.revokeObjectURL(img.src); // clean up
+                    };
+                    img.src = URL.createObjectURL(compressedFile);
+
+                    const openCompressedBtn = document.getElementById('openimageOutput');
+                    openCompressedBtn.classList.remove('d-none');
+                    const downloadBtn = document.getElementById('downloadCompressed');
+                    downloadBtn.classList.remove('d-none');
+                    openCompressedBtn.onclick = () => {
+                        window.open(compressedPreview.src, '_blank');
+                    };
+
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+
+        document.getElementById('qualityRange').addEventListener('input', function () {
+            document.getElementById('qualityValue').textContent = this.value + ' %';
+        });
+
+        document.getElementById('maxWidthRange').addEventListener('input', function () {
+            document.getElementById('maxWidthValue').textContent = this.value + ' px';
+        });
+
+        document.getElementById('downloadCompressed').addEventListener('click', function () {
+            const compressedPreview = document.getElementById('imageOutput');
+            if (compressedPreview.src) {
+                const link = document.createElement('a');
+                link.href = compressedPreview.src;
+                link.download = compressedFileName || 'compressed_image.jpg';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                alert('No compressed image to download!');
+            }
+        });
+
+        const uploadBox = document.querySelector('.upload-box');
+        const fileInput = document.getElementById('imageInput');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, e => e.preventDefault());
+        });
+
+        // Highlight on drag
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, () => {
+                uploadBox.style.borderColor = '#0d6efd';
+                uploadBox.style.background = '#e7f1ff';
+            });
+        });
+
+        // Remove highlight
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadBox.addEventListener(eventName, () => {
+                uploadBox.style.borderColor = '#d0d5dd';
+                uploadBox.style.background = '#fafafa';
+            });
+        });
+
+        // Handle drop
+        uploadBox.addEventListener('drop', function (e) {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+
+                // Trigger change event manually
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

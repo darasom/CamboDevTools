@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.min.js"
+        integrity="sha512-nKXmKvJyiGQy343jatQlzDprflyB5c+tKCzGP3Uq67v+lmzfnZUi/ZT+fc6ITZfSC5HhaBKUIvr/nTLCV+7F+Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+        integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
+        integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.4.13/dist/easy.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="text-center mb-4">QR Code Generator</h2>
+                <div class="form-group">
+                    <label for="qr-content">Enter Content:</label>
+                    <input type="text" class="form-control" id="qr-content" placeholder="Enter text or URL">
+                </div>
+                <div class="form-group">
+                    <label for="qr-color">QR Code Color:</label>
+                    <input type="color" class="form-control" id="qr-color" value="#000000">
+                </div>
+                <div class="form-group">
+                    <label for="bg-color">Background Color:</label>
+                    <input type="color" class="form-control" id="bg-color" value="#ffffff">
+                </div>
+                <div class="form-group mt-3">
+                    <label for="qr-logo">Upload Logo (optional):</label>
+                    <input type="file" class="form-control" id="qr-logo" accept="image/*">
+                    <img id="logo-preview" src="#" alt="Logo Preview" class="img-fluid mt-2 d-none" style="max-height: 100px;">
+                </div>
+                <button class="btn btn-primary mt-3" onclick="generateQR()">Generate QR Code</button>
+                <div id="qrcode" class="mt-4"></div>
+                <button class="btn btn-success mt-3 d-none" id="download-qr" onclick="downloadQR()">Download QR Code</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var qrLogo = document.getElementById('qr-logo');
+        qrLogo.addEventListener('change', function() {
+            const logoPreview = document.getElementById('logo-preview');
+            if (qrLogo.files.length > 0) {
+                const logoFile = qrLogo.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview.src = e.target.result;
+                    logoPreview.classList.remove('d-none');
+                };
+                reader.readAsDataURL(logoFile);
+            } else {
+                logoPreview.src = '#';
+                logoPreview.classList.add('d-none');
+            }
+        });
+        function generateQR() {
+            document.getElementById("qrcode").innerHTML = "";
+            const content = document.getElementById('qr-content').value;
+            const qrColor = document.getElementById('qr-color').value;
+            const bgColor = document.getElementById('bg-color').value;
+            qrLogo = document.getElementById('qr-logo');
+            const logoPreview = document.getElementById('logo-preview');
+            if (!content) {
+                alert('Please enter content to generate QR code.');
+                return;
+            }
+            if (qrLogo.files.length > 0) {
+                const logoFile = qrLogo.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreview.src = e.target.result;
+                    logoPreview.classList.remove('d-none');
+                };
+                reader.readAsDataURL(logoFile);
+            }
+            if (qrLogo.files.length > 0) {
+                const logoFile = qrLogo.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logoDataUrl = e.target.result;
+                    const qrcode = new QRCode(document.getElementById("qrcode"), {
+                        text: content,
+                        title: "CamboDev Tools QR Code",
+                        titleHeight: 80,
+                        subTitle: "Subtitle here",
+
+                        width: 200,
+                        height: 200,
+                        
+                        quietZone: 20,
+                        quietZoneColor: bgColor,
+                        
+                        logo: logoDataUrl,
+                        logoWidth: 60,
+                        logoHeight: 60,
+                        logoBackgroundTransparent: true,
+                        
+                        colorLight: qrColor,
+                        colorDark: bgColor,
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    document.getElementById('download-qr').classList.remove('d-none');
+                };
+                reader.readAsDataURL(logoFile);
+            } else {
+                const qrcode = new QRCode(document.getElementById("qrcode"), {
+                    text: content,
+                    title: "CamboDev Tools QR Code",
+                    titleHeight: 80,
+                    subTitle: "Subtitle here",
+
+                    width: 200,
+                    height: 200,
+                    
+                    quietZone: 20,
+                    quietZoneColor: bgColor,
+                    
+                    logo: null,
+                    logoWidth: 60,
+                    logoHeight: 60,
+                    logoBackgroundTransparent: true,
+
+                    colorLight: qrColor,
+                    colorDark: bgColor,
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                document.getElementById('download-qr').classList.remove('d-none');
+            }
+        }
+
+        function downloadQR() {
+            const qrCanvas = document.querySelector("#qrcode canvas");
+            if (!qrCanvas) {
+                alert('No QR code generated to download.');
+                return;
+            }
+            const link = document.createElement("a");
+            link.download = "qrcode.png";
+            link.href = qrCanvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2020 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2S64HPS08D"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-2S64HPS08D');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cambodev.site/CamboDev.png" />
+    <link rel="apple-touch-icon" href="https://cambodev.site/CamboDev.png" />
+    <link rel="apple-touch-icon-precomposed" href="https://cambodev.site/CamboDev.png" />
+    <meta name="description"
+        content="Post Photos or Videos to Facebook. Upload and publish media content directly to Facebook from your browser — no extra apps needed. Schedule posts, manage multiple pages." />
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://www.cambodev.site">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Post Photos or Videos to Facebook">
+    <meta property="og:description"
+        content="Upload and publish media content directly to Facebook from your browser — no extra apps needed. Schedule posts, manage multiple pages.">
+    <meta property="og:image" content="https://cambodev.site/CamboDev.png">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="cambodev.site">
+    <meta property="twitter:url" content="https://www.cambodev.site">
+    <meta name="twitter:title" content="Post Photos or Videos to Facebook">
+    <meta name="twitter:description"
+        content="Upload and publish media content directly to Facebook from your browser — no extra apps needed. Schedule posts, manage multiple pages.">
+    <meta name="twitter:image" content="https://cambodev.site/CamboDev.png">
+    <title>CamboDev FB Post</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/superhero/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+        integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+        rel="stylesheet" />
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+
+    <!-- =====================================================
+     Facebook JavaScript SDK
+     Replace YOUR_APP_ID with your real Facebook App ID
+     ====================================================== -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '846990801757153',   // <-- Replace this
+                cookie: true,
+                xfbml: true,
+                version: 'v19.0'
+            });
+
+            // Auto-restore session on page load
+            FB.getLoginStatus(function (response) {
+                if (response.status === 'connected') {
+                    fetchUserInfo();
+                }
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script>
+        function loginWithFacebook() {
+            const btn = document.getElementById('fb-login-btn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    fetchUserInfo();
+                } else {
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    alert('Login was cancelled or failed. Please try again.');
+                }
+            }, { scope: 'public_profile,email,pages_show_list,pages_read_engagement,pages_manage_posts,pages_read_user_content' });
+        }
+
+        function fetchUserInfo() {
+            FB.api('/me', { fields: 'id,name,email,picture.width(200)' }, function (data) {
+                if (data && !data.error) {
+                    showProfile(data);
+                    fetchUserPages();
+                } else {
+                    console.error('Graph API error:', data.error);
+                    alert('Could not retrieve user info. Please try again.');
+                    resetBtn();
+                }
+            });
+        }
+
+        function fetchUserPages() {
+            FB.api('/me/accounts', function (response) {
+                $("#page_list").empty();
+                response.data.forEach((element) => {
+                    $("#page_list").append(`
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 padding-bottom-15">
+              Name: <span id=""><a href="https://www.facebook.com/${element.id}" target="_blank">${element.name}</a></span><br>
+              Post To This <input type="checkbox" class="form-check-input post-to-this-page" token="${element.access_token}" pagename="${element.name}" id="post_pid_${element.id}" name="post_pname_${element.id}" value="${element.id}"><br>
+              <img id="page-picture-${element.id}" src="https://cdn-icons-png.flaticon.com/512/5692/5692284.png" width="100" height="100" />
+              <span style="font-size: 22px;" class="hideme" id="loading-${element.id}"><i class="fa fa-refresh fa-spin text-primary"></i></span>
+              <span style="font-size: 22px;" class="hideme" id="error-${element.id}"><i class="fa fa-exclamation-triangle text-danger"></i></span>
+              <span style="font-size: 22px;" class="hideme" id="success-${element.id}"><i class="fa fa-check-circle text-success"></i></span><br>
+              <span class ='btn btn-success show_post' style='width: 100px; margin-top: 5px;' pagename='${element.name}' id='show_post_${element.id}' page_id='${element.id}' token='${element.access_token}'><span class ="glyphicon glyphicon-list-alt"></span> List Post</span><br>
+              <span class ='btn btn-success show_reels' style='width: 100px; margin-top: 5px; display: none' pagename='${element.name}' id='show_reels_${element.id}' page_id='${element.id}' token='${element.access_token}'><span class ="glyphicon glyphicon-facetime-video"></span> List Reels</span>
+              </div>
+              `);
+                    $.ajax({
+                        url: `https://graph.facebook.com/${version}/${element.id}/picture?redirect=0&type=large&access_token=${element.access_token}`,
+                        success: function (picture) {
+                            $("#page-picture-" + element.id).attr("src", picture.data.url);
+                        },
+                    });
+                });
+
+
+            });
+        }
+
+        function showProfile(data) {
+            document.getElementById('user-avatar').src =
+                data.picture?.data?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name)}&background=1877f2&color=fff&size=160`;
+            document.getElementById('user-name').textContent = data.name || '—';
+            document.getElementById('info-name').textContent = data.name || '—';
+            document.getElementById('info-email').textContent = data.email || 'Not provided';
+            document.getElementById('info-id').textContent = data.id || '—';
+            document.getElementById('info-time').textContent = new Date().toLocaleString();
+
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('profile-view').style.display = 'block';
+        }
+
+        function confirmLogout() {
+            $.confirm({
+                title: "Sign Out?",
+                content: "Are You Sure You Want To Sign Out?",
+                closeIcon: true,
+                closeIconClass: 'fa fa-close',
+                escapeKey: 'Cancel',
+                backgroundDismiss: true,
+                theme: 'dark',
+                buttons: {
+                    Cancel: {
+                        keys: ['enter'],
+                        btnClass: 'btn-warning',
+                        text: "<i class='fa fa-close' aria-hidden='true'></i> Cancel",
+                        action: function () {
+                            console.log("CANCEL");
+                        }
+                    },
+                    Delete: {
+                        btnClass: 'btn-danger',
+                        text: "<i class='fa fa-sign-out' aria-hidden='true'></i> Sign Out",
+                        action: function () {
+                            logout();
+                        }
+                    },
+                },
+            });
+        }
+
+        function logout() {
+            FB.logout(function () {
+                document.getElementById('login-view').style.display = 'block';
+                document.getElementById('profile-view').style.display = 'none';
+                resetBtn();
+            });
+        }
+
+        function resetBtn() {
+            const btn = document.getElementById('fb-login-btn');
+            btn.classList.remove('loading');
+            btn.disabled = false;
+        }
+    </script>
+
+    <script>
+        var version = "v25.0";
+        var access_token = localStorage.getItem("access_token");
+        var app_id = localStorage.getItem("app_id");
+        var app_secret = localStorage.getItem("app_secret");
+
+        var short_live_access_token = "";
+        var long_live_access_token = "";
+
+        var selected_page = [];
+        var page_list = [];
+        var post_reels = false;
+        var post_photo_all_one = false;
+        var post_photo_cta_like_page = false;
+
+        $(function () {
+            $("#tabs").tabs();
+        });
+
+        $(document).ajaxStart(function () { $("#loading").show(); console.log("ajaxStart"); }).ajaxStop(function () { $("#loading").hide(); console.log("ajaxStop"); });
+
+        $(document).ready(function () {
+
+            $('#toggle-profile-view').on('click', function (e) {
+                e.preventDefault();
+                $('#profile-view').fadeToggle();
+            });
+
+            $(".date-time-picker").datetimepicker({
+                format: "d-m-Y H:i",
+                minDate: "-1970/01/02",
+            });
+
+            $("#post_schedule_date").val(
+                new Date().toLocaleString("en-GB").replace(",", "").replaceAll("/", "-")
+            );
+
+            addLongLivedAccessToken();
+
+            getMe();
+
+            $("#app_id").val(localStorage.getItem("app_id"));
+            $("#app_secret").val(localStorage.getItem("app_secret"));
+            $("#short_live_access_token").val(
+                localStorage.getItem("short_live_access_token")
+            );
+
+            var clickedUpdateToken = false;
+            //Add - Update Token
+            $("#add_token").click(function () {
+                if ($("#app_id").val() == "") {
+                    $.notify("Please Put App ID", "error");
+                    return;
+                }
+                if ($("#app_secret").val() == "") {
+                    $.notify("Please Put App Secret", "error");
+                    return;
+                }
+                if ($("#short_live_access_token").val() == "") {
+                    $.notify("Please Put Access Token", "error");
+                    return;
+                }
+
+                localStorage.setItem("app_id", $("#app_id").val());
+                localStorage.setItem("app_secret", $("#app_secret").val());
+                localStorage.setItem("short_live_access_token", $("#short_live_access_token").val());
+
+                app_id = localStorage.getItem("app_id");
+                app_secret = localStorage.getItem("app_secret");
+                short_live_access_token = localStorage.getItem("short_live_access_token");
+
+                $.notify("Added Access Token", "success");
+
+                clickedUpdateToken = true;
+
+                addLongLivedAccessToken();
+            });
+
+            function checkAppIdSecretToken() {
+                if (
+                    localStorage.getItem("app_id") == null ||
+                    localStorage.getItem("app_id") == "" ||
+                    localStorage.getItem("app_secret") == null ||
+                    localStorage.getItem("app_secret") == "" ||
+                    localStorage.getItem("short_live_access_token") == null ||
+                    localStorage.getItem("short_live_access_token") == ""
+                )
+                    return false;
+                else return true;
+            }
+
+            function addLongLivedAccessToken() {
+                if (checkAppIdSecretToken() == true && clickedUpdateToken == true) { //(access_token == null || access_token == "")
+                    clickedUpdateToken == false;
+                    console.log("addLongLivedAccessToken called");
+
+                    // Get a Long-lived User Access Token
+                    $.ajax({
+                        url: `https://graph.facebook.com/${version}/oauth/access_token`,
+                        data: {
+                            grant_type: "fb_exchange_token",
+                            client_id: app_id,
+                            client_secret: app_secret,
+                            fb_exchange_token: short_live_access_token,
+                        },
+                        success: function (response) {
+                            localStorage.setItem("access_token", response.access_token);
+                            access_token = localStorage.getItem("access_token");
+                            $.notify("Added Long-lived User Access Token", "success");
+                            getMe();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            $.notify("Cannot Add Token - " + xhr.status + " - " + xhr.responseText, { autoHideDelay: 15000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", });
+                        },
+                    });
+                }
+            }
+
+            function getMe() {
+                return;
+                $.ajax({
+                    url: `https://graph.facebook.com/${version}/me?fields=id,name&access_token=${access_token}`,
+                    success: function (result) {
+                        // get picture
+                        $.ajax({
+                            url: `https://graph.facebook.com/${version}/${result.id}/picture?redirect=0&type=large&access_token=${access_token}`,
+                            success: function (picture) {
+                                $("#account_picture").attr("src", picture.data.url);
+                            },
+                        });
+
+                        $("#account_name").text(result.name);
+                        $("#account_id").text(result.id);
+
+                        getPages();
+                    },
+                });
+            }
+
+            function getPages() {
+                //$("#loading").show();
+                $.ajax({
+                    url: `https://graph.facebook.com/${version}/me/accounts?access_token=${access_token}`,
+                    success: function (result) {
+                        $("#page_list").empty();
+                        result.data.forEach((element) => {
+                            //page_list.push();
+                            //ID: <span id="" class="blur-text">${element.id}</span><br>
+                            $("#page_list").append(`
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 padding-bottom-15">
+              Name: <span id=""><a href="https://www.facebook.com/${element.id}" target="_blank">${element.name}</a></span><br>
+              Post To This <input type="checkbox" class="form-check-input post-to-this-page" token="${element.access_token}" pagename="${element.name}" id="post_pid_${element.id}" name="post_pname_${element.id}" value="${element.id}"><br>
+              <img id="page-picture-${element.id}" src="https://cdn-icons-png.flaticon.com/512/5692/5692284.png" width="100" height="100" />
+              <span style="font-size: 22px;" class="hideme" id="loading-${element.id}"><i class="fa fa-refresh fa-spin text-primary"></i></span>
+              <span style="font-size: 22px;" class="hideme" id="error-${element.id}"><i class="fa fa-exclamation-triangle text-danger"></i></span>
+              <span style="font-size: 22px;" class="hideme" id="success-${element.id}"><i class="fa fa-check-circle text-success"></i></span><br>
+              <span class ='btn btn-success show_post' style='width: 100px; margin-top: 5px;' pagename='${element.name}' id='show_post_${element.id}' page_id='${element.id}' token='${element.access_token}'><span class ="glyphicon glyphicon-list-alt"></span> List Post</span><br>
+              <span class ='btn btn-success show_reels' style='width: 100px; margin-top: 5px; display: none' pagename='${element.name}' id='show_reels_${element.id}' page_id='${element.id}' token='${element.access_token}'><span class ="glyphicon glyphicon-facetime-video"></span> List Reels</span>
+              </div>
+              `);
+                            //$("#loading").show();
+                            //get picture
+                            $.ajax({
+                                url: `https://graph.facebook.com/${version}/${element.id}/picture?redirect=0&type=large&access_token=${element.access_token}`,
+                                success: function (picture) {
+                                    $("#page-picture-" + element.id).attr("src", picture.data.url);
+                                },
+                            });
+                        });
+                    },
+                });
+            }
+
+            $(document).on("click", ".post-to-this-page", function () {
+                if (this.checked) {
+                    selected_page.push({
+                        page_id: this.value,
+                        page_name: $(this).attr("pagename"),
+                        token: $(this).attr("token"),
+                    });
+                } else {
+                    selected_page = selected_page.filter(
+                        (item) => item.page_id !== this.value
+                    );
+                }
+            });
+
+            var post_list_id = [];
+            $(document).on("click", ".show_post", function () {
+                $("#post_videos_list").fadeOut();
+                post_list_id = [];
+                var page_id = $(this).attr("page_id");
+                var pagename = $(this).attr("pagename");
+                var token = $(this).attr("token");
+                var url = `https://graph.facebook.com/${version}/${page_id}/feed`;
+                if (previous_clicked) url = previous_url;
+                if (next_clicked) url = next_url;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: { access_token: token, fields: "created_time,message,id,icon,full_picture" }, //limit: 10
+                    success: function (data, status) {
+                        previous_clicked = false;
+                        next_clicked = false;
+                        $("#post_list").empty();
+                        $("#post_list").append(`<h3>Posts From Page: ${pagename}</h3>`);
+                        var post_list_row = ``;
+                        data.data.forEach((post) => {
+                            post_list_id.push(post.id);
+                            post_list_row += (`<tr id="row_post_${post.id}">
+                                    <td><input type="checkbox" class="form-check-input delete-post" page_id="${page_id}" token="${token}" pagename="${pagename}" value="${post.id}" id="${post.id}"></td>
+                                    <td><img src="${post.icon}" /></td>
+                                    <td><img src="${post.full_picture}" width="50" /></td>
+                                    <td><textarea style="width: 100%; height: 100px; border: 0; overflow: hidden">${post.message}</textarea></td>
+                                    <td>${moment(post.created_time).format("DD-MM-YYYY h:mm A")}</td>
+                                    <td><a href="https://www.facebook.com/${post.id}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                                </tr>`);
+                        });
+                        var post_list_table = (`<table class="table table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th style="min-width: 60px; max-width: 60px; width: 60px;"><input type="checkbox" class="form-check-input delete-post-all" id="delete-post-all"></th>
+                                        <th style="min-width: 30px; max-width: 30px; width: 30px;"></th>
+                                        <th style="min-width: 70px; max-width: 70px; width: 70px;"></th>
+                                        <th>Title</th>
+                                        <th style="min-width: 170px; max-width: 170px; width: 170px;">Date</th>
+                                        <th style="min-width: 100px; max-width: 100px; width: 100px;">View</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    ${post_list_row}
+                                    </tbody>
+                                  </table>`);
+                        $("#post_list").append(post_list_table);
+
+                        $("#post_list").append(`<div style="" class="col-lg-2 col-xs-6"><span class="btn btn-danger" id="delete-selected-post"><span class="glyphicon glyphicon-trash"></span> Delete Selected Posts</span></div>`);
+
+                        // if(data.paging.previous != null) {
+                        //   console.log("previous");
+                        //   $("#post_list").append(`<span class="btn btn-default btn-previous-post" previous_url="${data.paging.previous}" page_id="${page_id}" token="${token}" pagename="${pagename}">Previous</span>`);
+                        // }
+                        if (data.paging.next != null) {
+                            $("#post_list").append(`<div class="col-lg-2 col-xs-6" style="float: right"><span style="float: right" class="btn btn-warning btn-next-post" next_url="${data.paging.next}" page_id="${page_id}" token="${token}" pagename="${pagename}">Next Post</span></div>`);
+                        }
+
+                        $("#post_list").append(`<div class="col-lg-12" style="clear: both;">&nbsp;</div>
+                                    <hr style="clear: both;" />`);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr);
+                        $.notify(`Get Posts Status ${element.page_name} - ${element.page_id} - ${xhr.status} - ${xhr.responseText}`,
+                            { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", }
+                        );
+                    },
+                });
+            });
+
+            $(document).on("click", ".show_reels", function () {
+                $("#post_videos_list").fadeOut();
+                post_list_id = [];
+                var page_id = $(this).attr("page_id");
+                var pagename = $(this).attr("pagename");
+                var token = $(this).attr("token");
+                var url = `https://graph.facebook.com/${version}/${page_id}/video_reels`;
+                if (previous_clicked) url = previous_url;
+                if (next_clicked) url = next_url;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: { access_token: token, fields: "created_time,description,id,icon,picture" }, //limit: 10
+                    success: function (data, status) {
+                        previous_clicked = false;
+                        next_clicked = false;
+                        $("#post_list").empty();
+                        $("#post_list").append(`<h3>Posts From Page: ${pagename}</h3>`);
+                        var post_list_row = ``;
+                        data.data.forEach((post) => {
+                            post_list_id.push(post.id);
+                            post_list_row += (`<tr id="row_post_${post.id}">
+                                    <td><input type="checkbox" class="form-check-input delete-post" page_id="${page_id}" token="${token}" pagename="${pagename}" value="${post.id}" id="${post.id}"></td>
+                                    <td><img src="${post.icon}" /></td>
+                                    <td><img src="${post.picture}" width="50" /></td>
+                                    <td><textarea style="width: 100%; height: 100px; border: 0; overflow: hidden">${post.description}</textarea></td>
+                                    <td>${moment(post.created_time).format("DD-MM-YYYY h:mm A")}</td>
+                                    <td><a href="https://www.facebook.com/${post.id}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                                </tr>`);
+                        });
+                        var post_list_table = (`<table class="table table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th style="min-width: 60px; max-width: 60px; width: 60px;"><input type="checkbox" class="form-check-input delete-post-all" id="delete-post-all"></th>
+                                        <th style="min-width: 30px; max-width: 30px; width: 30px;"></th>
+                                        <th style="min-width: 70px; max-width: 70px; width: 70px;"></th>
+                                        <th>Title</th>
+                                        <th style="min-width: 170px; max-width: 170px; width: 170px;">Date</th>
+                                        <th style="min-width: 100px; max-width: 100px; width: 100px;">View</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    ${post_list_row}
+                                    </tbody>
+                                  </table>`);
+                        $("#post_list").append(post_list_table);
+
+                        $("#post_list").append(`<div style="" class="col-lg-2 col-xs-6"><span class="btn btn-danger" id="delete-selected-post"><span class="glyphicon glyphicon-trash"></span> Delete Selected Posts</span></div>`);
+
+                        // if(data.paging.previous != null) {
+                        //   console.log("previous");
+                        //   $("#post_list").append(`<span class="btn btn-default btn-previous-post" previous_url="${data.paging.previous}" page_id="${page_id}" token="${token}" pagename="${pagename}">Previous</span>`);
+                        // }
+                        if (data.paging.next != null) {
+                            $("#post_list").append(`<div class="col-lg-2 col-xs-6" style="float: right"><span style="float: right" class="btn btn-warning btn-next-post" next_url="${data.paging.next}" page_id="${page_id}" token="${token}" pagename="${pagename}">Next Post</span></div>`);
+                        }
+
+                        $("#post_list").append(`<div class="col-lg-12" style="clear: both;">&nbsp;</div>
+                                    <hr style="clear: both;" />`);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr);
+                        $.notify(`Get Posts Status ${element.page_name} - ${element.page_id} - ${xhr.status} - ${xhr.responseText}`,
+                            { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", }
+                        );
+                    },
+                });
+            });
+
+            $(document).on("click", "#delete-post-all", function () {
+                post_list_id.forEach((post) => {
+                    if (this.checked) {
+                        if ($(`#${post}`).is(':checked') == false) {
+                            $(`#${post}`).click();
+                        }
+                    }
+                    else {
+                        if ($(`#${post}`).is(':checked') == true) {
+                            $(`#${post}`).click();
+                        }
+                    }
+                });
+            });
+
+            var previous_clicked = false;
+            var previous_url = "";
+            $(document).on("click", ".btn-previous-post", function () {
+                previous_url = $(this).attr("previous_url");
+                previous_clicked = true;
+                next_clicked = false
+                $("#show_post_" + $(this).attr("page_id")).click();
+            });
+
+            var next_clicked = false;
+            var next_url = "";
+            $(document).on("click", ".btn-next-post", function () {
+                next_url = $(this).attr("next_url");
+                next_clicked = true;
+                previous_clicked = false;
+                $("#show_post_" + $(this).attr("page_id")).click();
+            });
+
+            var delete_posts = [];
+            $(document).on("click", ".delete-post", function () {
+                if (this.checked) {
+                    delete_posts.push({
+                        post_id: this.value,
+                        page_id: $(this).attr("page_id"),
+                        page_name: $(this).attr("pagename"),
+                        token: $(this).attr("token"),
+                    });
+                } else {
+                    delete_posts = delete_posts.filter(
+                        (item) => item.post_id !== this.value
+                    );
+                }
+            });
+
+            $(document).on("click", "#delete-selected-post", function () {
+                $.confirm({
+                    title: "Delete Posts?",
+                    content: "Are You Sure To Delete Selected Posts?",
+                    closeIcon: true,
+                    closeIconClass: 'glyphicon glyphicon-remove',
+                    escapeKey: 'Cancel',
+                    backgroundDismiss: true,
+                    theme: 'dark',
+                    buttons: {
+                        Cancel: {
+                            keys: ['enter'],
+                            btnClass: 'btn-warning',
+                            text: "<span class=\"glyphicon glyphicon-remove\"></span> Cancel",
+                            action: function () {
+                                console.log("CANCEL");
+                            }
+                        },
+                        Delete: {
+                            btnClass: 'btn-danger',
+                            text: "<span class=\"glyphicon glyphicon-trash\"></span> Delete",
+                            action: function () {
+                                delete_posts.forEach((post) => {
+                                    $.ajax({
+                                        url: `https://graph.facebook.com/${version}/${post.post_id}`,
+                                        type: "DELETE",
+                                        data: { access_token: post.token },
+                                        success: function (data, status) {
+                                            if (data.success = true) {
+                                                $.notify(`Deleted Post Status ${post.post_id} ${status}`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "success", });
+                                                // delete_posts = delete_posts.filter(
+                                                //   (item) => item.post_id !== post.post_id
+                                                // );
+                                                // $(`#row_post_${post.post_id}`).hide();
+                                                $(`#row_post_${post.post_id}`).hide();
+                                                console.log(delete_posts);
+                                                //$("#loading").show();
+                                            }
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            console.log(xhr);
+                                            $.notify(`${post.pagename} - ${post.page_id} - ${xhr.status} - ${xhr.responseText}`,
+                                                { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", }
+                                            );
+                                        },
+                                    });
+                                });
+                            }
+                        },
+                    },
+                });
+            });
+
+            var formData;
+            var selected_files
+            $("#post_video_file").change(function () {
+                formData = new FormData();
+                formData.append("source", this.files[0]);
+                $("#post_info").empty();
+                if (this.files.length == 0) {
+                    $(".upload_post").hide();
+                    $(".upload_post_reels").hide();
+                    return;
+                }
+                else {
+                    $(".upload_post").show();
+                    $(".upload_post_reels").show();
+                }
+                $("#post_info").append(`<div style="clear: both"><div class="form-group col-lg-3 col-xs-4">
+                                    <label for="post_title_0">Title All</label>
+                                    <textarea class ="form-control" id="post_title_0" name="post_title_0" value="" style="background-color: lightblue;"></textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-7  col-xs-4">
+                                    <label for="post_description_0">Description All</label>
+                                    <textarea class ="form-control" id="post_description_0" name="post_description_0" value="" style="background-color: lightblue;"></textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-3 col-xs-4 hidden">
+                                  </div>
+                                  <div class ="form-group col-lg-2  col-xs-4">
+                                    <label for="post_schedule_date_0"><input type="checkbox" class="form-check-input" id="post_schedule_check_0" name="post_schedule_check_0"> Schedule All</label>
+                                    <input type="text" class ="form-control date-time-picker" id="post_schedule_date_0" name="post_schedule_date_0" style="background-color: lightblue;">
+                                  </div>
+                                  </div>`);
+                for (var i = 0; i < this.files.length; i++) {
+                    console.log(this.files[i]);
+                    $("#post_info").append(`<div style="clear: both"><div class="form-group col-lg-3 col-xs-4">
+                                    <label for="post_title_${i + 1}">Title #${i + 1}</label>
+                                    <textarea class ="form-control post_title" id="post_title_${i + 1}" name="post_title_${i + 1}" value="">${this.files[i].name.substring(0, this.files[i].name.lastIndexOf('.'))}</textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-7 col-xs-4">
+                                    <label for="post_description_${i + 1}">Description #${i + 1}</label>
+                                    <textarea class ="form-control post_description" id="post_description_${i + 1}" name="post_description_${i + 1}" value="">${this.files[i].name.substring(0, this.files[i].name.lastIndexOf('.'))}</textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-3 col-xs-4 hidden">
+                                    <!-- <label for="post_video_url_${i + 1}">Video File #${i + 1}</label> -->
+                                    <!-- <input type="text" class="form-control" id="post_video_url_${i + 2}" name="post_video_url_${i + 2}" /> -->
+                                    <!-- <input type="file" id="post_video_file_${i + 1}" name="post_video_file_${i + 1}" accept="" multiple=""> -->
+                                  </div>
+                                  <div class ="form-group col-lg-2 col-xs-4">
+                                    <label for="post_schedule_date_${i + 1}"><input type="checkbox" class ="form-check-input post_schedule_check" id="post_schedule_check_${i + 1}" name="post_schedule_check_${i + 1}"> Schedule #${i + 1}</label>
+                                    <input type="text" class ="form-control post_schedule_date date-time-picker" id="post_schedule_date_${i + 1}" name="post_schedule_date_${i + 1}">
+                                  </div>
+                                  <!-- <div class="form-group col-lg-1">
+                                    <label for="upload_post_${i + 1}"> &nbsp; </label>
+                                    <button type="button" class="form-control btn btn-success" id="upload_post_${i + 1}" name="upload_post_${i + 1}">
+                                      Post Video
+                                    </button>
+                                  </div> -->
+                                  <!-- <div class="form-group col-lg-1">
+                                    <label for="upload_post_reels_${i + 1}"> &nbsp; </label>
+                                    <button type="button" class="form-control btn btn-success" id="upload_post_reels_${i + 1}" name="upload_post_reels_${i + 1}" disabled="">
+                                      Post Reels
+                                    </button>
+                                  </div> -->
+                                  </div>
+                                  `);
+                    $(`#post_schedule_date_${i + 1}`).datetimepicker({
+                        format: "d-m-Y H:i",
+                    });
+
+                    $(`#post_schedule_date_${i + 1}`).val(
+                        new Date().toLocaleString("en-GB").replace(",", "").replaceAll("/", "-")
+                    );
+
+                    const video = document.createElement('video');
+                    video.src = URL.createObjectURL(this.files[i]);
+                    $(video).attr('file_name', this.files[i].name);
+                    video.addEventListener('loadedmetadata', event => {
+                        //console.log(video.videoWidth, video.videoHeight, (video.videoHeight / video.videoWidth).toFixed(2));
+                        if ((video.videoHeight / video.videoWidth) != (1920 / 1080)) {
+                            $.notify($(video).attr('file_name') + ` [${video.videoWidth} x ${video.videoHeight}]` + ` - Check Aspect Ratio If You Want To Post Reels. [Aspect Ratio: 9 x 16] [Resolution: 1080 x 1920 pixels (recommended). Minimum is 540 x 960 pixels]`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", });
+                            //$(`#upload_post`).attr('disabled', 'disabled');
+                            $(`#upload_post_reels`).attr('disabled', 'disabled');
+                        }
+                    });
+                };
+
+                $("#post_title_0").keyup(function () {
+                    $(`.post_title`).val($("#post_title_0").val());
+                });
+                $("#post_description_0").keyup(function () {
+                    $(`.post_description`).val($("#post_description_0").val());
+                });
+                $("#post_schedule_date_0").change(function () {
+                    $(`.post_schedule_date`).val($("#post_schedule_date_0").val());
+                });
+
+                $(`#post_schedule_date_0`).datetimepicker({
+                    format: "d-m-Y H:i",
+                });
+                $(`#post_schedule_date_0`).val(
+                    new Date().toLocaleString("en-GB").replace(",", "").replaceAll("/", "-")
+                );
+
+                $(".date-time-picker").datetimepicker({
+                    format: "d-m-Y H:i",
+                    minDate: "0",
+                });
+
+                $("#post_schedule_check_0").change(function () {
+                    $(".post_schedule_check").prop("checked", this.checked);
+                });
+            });
+
+            var selected_photo_count = 0;
+            $("#post_photo_file").change(function () {
+                formData = new FormData();
+                formData.append("source", this.files[0]);
+                $("#post_info").empty();
+                if (this.files.length == 0) {
+                    $(".upload_photo_all_one").hide();
+                    $(".upload_photo_one_one").hide();
+                    $(".post_photo_cta_like_page").hide();
+                    return;
+                }
+                else {
+                    $(".upload_photo_all_one").show();
+                    $(".upload_photo_one_one").show();
+                    $(".post_photo_cta_like_page").show();
+                }
+                $("#post_info").append(`
+                                 <div style="clear: both">
+                                 <div class ="form-group col-lg-1 col-xs-1">
+                                    <label for="">Photo</label>
+                                    <span class ="glyphicon glyphicon-picture" style="font-size: 100px; visibility: hidden;"></span>
+                                 </div>
+                                 <div class ="form-group col-lg-3 col-xs-4">
+                                    <label for="post_title_0">Title All</label>
+                                    <textarea class ="form-control" id="post_title_0" name="post_title_0" value="" style="background-color: lightblue;"></textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-6 col-xs-4">
+                                    <label for="post_description_0">Description All</label>
+                                    <textarea class ="form-control" id="post_description_0" name="post_description_0" value="" style="background-color: lightblue;"></textarea>
+                                  </div>
+                                  <div class="form-group col-lg-3 hidden">
+                                  </div>
+                                  <div class ="form-group col-lg-2 col-xs-3">
+                                    <label for="post_schedule_date_0"><input type="checkbox" class="form-check-input" id="post_schedule_check_0" name="post_schedule_check_0"> Schedule All</label>
+                                    <input class ="form-control date-time-picker" id="post_schedule_date_0" name="post_schedule_date_0" style="background-color: lightblue;">
+                                  </div>
+                                  </div>`);
+                for (var i = 0; i < this.files.length; i++) {
+                    $("#post_info").append(`
+                                 <div style="clear: both">
+                                    <div class ="form-group col-lg-1 col-xs-1">
+                                    <label for="">#${i + 1}</label>
+                                    <img src="https://www.facebook.com/images/icons/photo.gif" id="photo_${i + 1}" class ="photo_post" style="width: 100%" />
+                                 </div>
+                                 <div class ="form-group col-lg-3 col-xs-4">
+                                    <label for="post_title_${i + 1}">Title #${i + 1}</label>
+                                    <textarea type="text" class ="form-control post_title" id="post_title_${i + 1}" name="post_title_${i + 1}" value="">${this.files[i].name.substring(0, this.files[i].name.lastIndexOf('.'))}</textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-6 col-xs-4">
+                                    <label for="post_description_${i + 1}">Description #${i + 1}</label>
+                                    <textarea class ="form-control post_description" id="post_description_${i + 1}" name="post_description_${i + 1}" value="">${this.files[i].name.substring(0, this.files[i].name.lastIndexOf('.'))}</textarea>
+                                  </div>
+                                  <div class ="form-group col-lg-2 col-xs-3">
+                                    <label for="post_schedule_date_${i + 1}"><input type="checkbox" class ="form-check-input post_schedule_check" id="post_schedule_check_${i + 1}" name="post_schedule_check_${i + 1}"> Schedule #${i + 1}</label>
+                                    <input type="text" class ="form-control post_schedule_date date-time-picker" id="post_schedule_date_${i + 1}" name="post_schedule_date_${i + 1}">
+                                  </div>
+                                  </div>
+                                  `);
+                    $(`#post_schedule_date_${i + 1}`).datetimepicker({
+                        format: "d-m-Y H:i",
+                    });
+
+                    $(`#post_schedule_date_${i + 1}`).val(
+                        new Date().toLocaleString("en-GB").replace(",", "").replaceAll("/", "-")
+                    );
+
+                    selected_photo_count++;
+                    if (selected_photo_count == this.files.length) {
+                        show_photo(this.files);
+                    }
+                };
+
+                $("#post_title_0").keyup(function () {
+                    $(`.post_title`).val($("#post_title_0").val());
+                });
+                $("#post_description_0").keyup(function () {
+                    $(`.post_description`).val($("#post_description_0").val());
+                });
+                $("#post_schedule_date_0").change(function () {
+                    $(`.post_schedule_date`).val($("#post_schedule_date_0").val());
+                });
+
+                $(`#post_schedule_date_0`).datetimepicker({
+                    format: "d-m-Y H:i",
+                });
+                $(`#post_schedule_date_0`).val(
+                    new Date().toLocaleString("en-GB").replace(",", "").replaceAll("/", "-")
+                );
+
+                $(".date-time-picker").datetimepicker({
+                    format: "d-m-Y H:i",
+                    minDate: "0",
+                });
+
+                $("#post_schedule_check_0").change(function () {
+                    $(".post_schedule_check").prop("checked", this.checked);
+                });
+            });
+
+            $("#post_title_0").keyup(function () {
+                $(`.post_title`).val($("#post_title_0").val());
+                console.log("title changed");
+            });
+
+            $("#upload_post").click(function () {
+                post_reels = false;
+                uploadPost();
+            });
+            $("#upload_post_reels").click(function () {
+                post_reels = true;
+                uploadPost();
+            });
+
+            $("#upload_photo_one_one").click(function () {
+                post_photo_all_one = false;
+                uploadPhoto();
+            });
+            $("#upload_photo_all_one").click(function () {
+                post_photo_all_one = true;
+                post_photo_cta_like_page = false;
+                uploadPhoto();
+            });
+            $("#post_photo_cta_like_page").click(function () {
+                post_photo_all_one = true;
+                post_photo_cta_like_page = true;
+                uploadPhoto();
+            });
+
+            function show_photo(photos) {
+                for (var i = 0; i < photos.length; i++) {
+                    readURL(photos[i], `#photo_${i + 1}`);
+                }
+            }
+
+            function readURL(input, photo_id) {
+                if (input) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $(`${photo_id}`).attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input);
+                }
+                else {
+                    $(`${photo_id}`).attr('src', 'https://www.facebook.com/images/icons/photo.gif');
+                }
+            }
+
+            var attached_media = []; //attached_media.push({ "media_fbid": "368447625894066" });
+            var photo_upload_count = 0;
+            function uploadPhoto() {
+                var post_title = ""; //$("#post_title").val();
+                var post_description = ""; //$("#post_description").val();
+
+                if (formData == null) {
+                    $.notify("Please Select Photo", "error");
+                    return;
+                }
+
+                selected_files = document.querySelector('#post_photo_file').files;
+                if (selected_files == null || selected_files.length == 0) {
+                    $.notify("Please Select Photo", "error");
+                    return;
+                }
+
+                var time_to_post = 0; //Math.round((moment($("#post_schedule_date").val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() +0 * 60 * 1000) /1000);
+                var post_schedule_check = false; //$("#post_schedule_check").is(":checked");
+
+                var selected_files = document.querySelector('#post_photo_file').files;
+
+                photo_upload_count = 0;
+                attached_media = [];
+
+                selected_page.forEach((element) => {
+                    if (!post_photo_all_one) {
+                        formData = new FormData();
+                        for (var i = 0; i < selected_files.length; i++) {
+                            post_title = $(`#post_title_${i + 1}`).val();
+                            post_description = $(`#post_description_${i + 1}`).val();
+                            post_schedule_check = $(`#post_schedule_check_${i + 1}`).is(":checked");
+                            time_to_post = Math.round((moment($(`#post_schedule_date_${i + 1}`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() + 0 * 60 * 1000) / 1000);
+
+                            //formData.append("title", post_title);
+                            formData.append("message", post_description);
+                            formData.append("source", selected_files[i]);
+                            formData.append("access_token", element.token);
+                            if (post_schedule_check) {
+                                formData.append("published", false);
+                                formData.append("scheduled_publish_time", time_to_post);
+                                //formData.append("temporary", true);
+                                formData.append("unpublished_content_type", "SCHEDULED");
+                            }
+                            else {
+                                formData.append("published", true);
+                            }
+                            //$("#loading").show();
+                            $("#loading-" + element.page_id).css("display", "inline");
+                            $.ajax({
+                                url: `https://graph.facebook.com/${version}/${element.page_id}/photos`,
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                data: formData,
+                                success: function (data, status) {
+                                    $.notify(`Posted Photo Status [${element.page_name} - ${element.page_id}] - ${status}`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 100, arrowShow: false, className: "success", });
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#success-" + element.page_id).css("display", "inline");
+                                    //$("#loading").show();
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //$("#loading").show();
+                                    console.log(xhr);
+                                    console.log(ajaxOptions);
+                                    console.log(thrownError);
+                                    $.notify(`Posted Photo Status [${element.page_name} - ${element.page_id}] - ${xhr.status} - ${xhr.responseText}`,
+                                        { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 100, arrowShow: false, className: "error", }
+                                    );
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#error-" + element.page_id).css("display", "inline");
+                                },
+                            });
+                        };
+                    }
+                    else {
+                        formData = new FormData();
+                        for (var i = 0; i < selected_files.length; i++) {
+                            post_title = $(`#post_title_0`).val();
+                            post_description = $(`#post_description_0`).val();
+                            post_schedule_check = $(`#post_schedule_check_0`).is(":checked");
+                            time_to_post = Math.round((moment($(`#post_schedule_date_0`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() + 0 * 60 * 1000) / 1000);
+
+                            //Uploading an unpublished photo
+                            //formData.append("title", post_title);
+                            //formData.append("message", post_description);
+                            formData.append("source", selected_files[i]);
+                            formData.append("access_token", element.token);
+                            formData.append("published", false);
+                            formData.append("description", i);
+                            formData.append("alt_text", i);
+                            formData.append("alt_text_custom", i);
+                            if (post_schedule_check) {
+                                //formData.append("published", false);
+                                //formData.append("scheduled_publish_time", time_to_post);
+                                formData.append("temporary", true);
+                                //formData.append("unpublished_content_type", "SCHEDULED");
+                            }
+
+                            $("#loading-" + element.page_id).css("display", "inline");
+                            $.ajax({
+                                url: `https://graph.facebook.com/${version}/${element.page_id}/photos`,
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                enctype: 'multipart/form-data',
+                                data: formData,
+                                success: function (data, status) {
+                                    $.get(`https://graph.facebook.com/${version}/${data.id}?fields=images,created_time,alt_text,alt_text_custom&access_token=${element.token}`, function (imgData, imgStatus) {
+                                        attached_media.push({ "page_id": element.page_id, "token": element.token, "media_fbid": data.id, "image_source": imgData.images[0].source, "order": imgData.alt_text });
+                                        $("#loading-" + element.page_id).css("display", "none");
+                                        $("#success-" + element.page_id).css("display", "inline");
+                                        photo_upload_count++;
+                                        if (photo_upload_count == selected_page.length * selected_files.length) {
+                                            if (post_photo_cta_like_page) photoCTALikePage();
+                                            else multiPhotoPost();
+                                        }
+                                    });
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    console.log(xhr);
+                                    console.log(ajaxOptions);
+                                    console.log(thrownError);
+                                    $.notify(`Unpublished Photo Status [${element.page_name} - ${element.page_id}] - ${xhr.status} - ${xhr.responseText}`,
+                                        { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 100, arrowShow: false, className: "error", }
+                                    );
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#error-" + element.page_id).css("display", "inline");
+                                },
+                            });
+                        };
+                    }
+                });
+            }
+
+            function multiPhotoPost() {
+                //Publishing a multi-photo post with uploaded photos
+                post_title = $(`#post_title_0`).val();
+                post_description = $(`#post_description_0`).val();
+                post_schedule_check = $(`#post_schedule_check_0`).is(":checked");
+                time_to_post = Math.round((moment($(`#post_schedule_date_0`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() + 0 * 60 * 1000) / 1000);
+                //Loop in selected_page then multi-photo post
+                selected_page.forEach((element) => {
+                    $("#loading-" + element.page_id).css("display", "inline");
+                    var current = attached_media.filter(x => x.page_id == element.page_id);
+                    var current_attached_media = [];
+                    current.forEach((item) => {
+                        current_attached_media.push({ "media_fbid": item.media_fbid })
+                    });
+                    var post_data = {
+                        "message": post_description,
+                        "access_token": element.token,
+                        "attached_media": current_attached_media
+                    }
+                    if (post_schedule_check) {
+                        post_data = {
+                            "message": post_description,
+                            "access_token": element.token,
+                            "attached_media": current_attached_media,
+                            "published": false,
+                            "scheduled_publish_time": time_to_post,
+                            "unpublished_content_type": "SCHEDULED"
+                        }
+                    }
+                    $.ajax({
+                        url: `https://graph.facebook.com/${version}/${element.page_id}/feed`,
+                        type: "POST",
+                        data: post_data,
+                        success: function (data, status) {
+                            console.log(data);
+                            $.notify(`Multi-photo Post Status [${element.page_name} - ${element.page_id}] - ${status}`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 100, arrowShow: false, className: "success", });
+                            $("#loading-" + element.page_id).css("display", "none");
+                            $("#success-" + element.page_id).css("display", "inline");
+                            //$("#loading").show();
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            //$("#loading").show();
+                            console.log(xhr);
+                            console.log(ajaxOptions);
+                            console.log(thrownError);
+                            $.notify(`Multi-photo Post Status [${element.page_name} - ${element.page_id}] - ${xhr.status} - ${xhr.responseText}`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 100, arrowShow: false, className: "error", });
+                            $("#loading-" + element.page_id).css("display", "none");
+                            $("#error-" + element.page_id).css("display", "inline");
+                        },
+                    });
+                });
+
+            }
+
+            function photoCTALikePage() {
+                //PE Post Link with Picture
+                selected_page.forEach((element) => {
+                    $("#loading-" + element.page_id).css("display", "inline");
+                    var current = attached_media.filter(x => x.page_id == element.page_id);
+                    current.sort((a, b) => a.order - b.order);
+                    var current_attached_media = [];
+                    var count = 0;
+                    current.forEach((item) => {
+                        current_attached_media.push({
+                            "name": $(`#post_title_${count + 1}`).val(), // will show when call_to_action MESSAGE_PAGE
+                            "description": $(`#post_description_${count + 1}`).val(), // will show when call_to_action MESSAGE_PAGE
+                            //"link": `https://www.facebook.com/${element.page_id}`, // will not show photo on the card, click on card will open page
+                            "link": "https://cambodev.net", // show photo on the card, click on the card will open external link
+                            "picture": item.image_source,
+                            "call_to_action": { "type": "LIKE_PAGE", "value": { "page": element.page_id } }, // click on card, name, description will open page
+                            //"call_to_action": { "type": "MESSAGE_PAGE" }, // click on card, name, description will open external link
+                            //"call_to_action": { "type": "SIGN_UP", "value": { "link": "https://cambodev.net" } }
+                        });
+                        count++;
+                    });
+                    post_schedule_check = $(`#post_schedule_check_0`).is(":checked");
+                    time_to_post = Math.round((moment($(`#post_schedule_date_0`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() + 0 * 60 * 1000) / 1000);
+                    var post_data = {
+                        "message": $(`#post_description_0`).val(),
+                        "link": `https://www.facebook.com/${element.page_id}`,
+                        "child_attachments": current_attached_media,
+                        multi_share_end_card: false,
+                        access_token: element.token
+                    }
+                    if (post_schedule_check) {
+                        post_data = {
+                            "message": $(`#post_description_0`).val(),
+                            "link": `https://www.facebook.com/${element.page_id}`,
+                            "child_attachments": current_attached_media,
+                            multi_share_end_card: false,
+                            access_token: element.token,
+                            "published": false,
+                            "scheduled_publish_time": time_to_post,
+                            "unpublished_content_type": "SCHEDULED"
+                        }
+                    }
+                    $.ajax({
+                        url: `https://graph.facebook.com/${version}/${element.page_id}/feed`,
+                        type: "POST",
+                        data: post_data,
+                        success: function (data, status) {
+                            $.notify(element.page_id + " - " + status, "success");
+                            $("#loading-" + element.page_id).css("display", "none");
+                            $("#success-" + element.page_id).css("display", "inline");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr);
+                            $.notify(element.page_id + " - " + xhr.status + " - " + xhr.responseText, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", });
+                            $("#loading-" + element.page_id).css("display", "none");
+                            $("#error-" + element.page_id).css("display", "inline");
+                        }
+                    });
+                });
+            }
+
+            function uploadPost() {
+                var post_title = ""; //$("#post_title").val();
+                var post_description = ""; //$("#post_description").val();
+
+                if (formData == null) {
+                    $.notify("Please Select Video", "error");
+                    return;
+                }
+
+                selected_files = document.querySelector('#post_video_file').files;
+                if (selected_files == null || selected_files.length == 0) {
+                    $.notify("Please Select Video", "error");
+                    return;
+                }
+
+                var time_to_post = 0; //Math.round((moment($("#post_schedule_date").val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() +0 * 60 * 1000) /1000);
+                var post_schedule_check = false; //$("#post_schedule_check").is(":checked");
+
+                var selected_files = document.querySelector('#post_video_file').files;
+
+                // for (var i = 0; i < selected_files.length; i++) {
+                //   post_title = $(`#post_title_${i + 1}`).val();
+                //   post_description = $(`#post_description_${i + 1}`).val();
+                //   post_schedule_check = $(`#post_schedule_check_${i + 1}`).is(":checked");
+                //   time_to_post = Math.round((moment($(`#post_schedule_date_${i + 1}`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() +0 * 60 * 1000) /1000);
+                //   console.log("t: " + post_title);
+                //   console.log("d: " + post_description);
+                //   console.log("sc: " + post_schedule_check);
+                //   console.log("s: " + time_to_post);
+                // }
+                // return;
+
+                var step1;
+                var step2;
+                var step3;
+                selected_page.forEach((element) => {
+
+                    if (!post_reels) {
+                        //Upload Local Video (multiple files)
+                        formData = new FormData();
+                        for (var i = 0; i < selected_files.length; i++) {
+                            post_title = $(`#post_title_${i + 1}`).val();
+                            post_description = $(`#post_description_${i + 1}`).val();
+                            post_schedule_check = $(`#post_schedule_check_${i + 1}`).is(":checked");
+                            time_to_post = Math.round((moment($(`#post_schedule_date_${i + 1}`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() + 0 * 60 * 1000) / 1000);
+
+                            formData.append("title", post_title);
+                            formData.append("description", post_description);
+                            formData.append("source", selected_files[i]);
+                            formData.append("access_token", element.token);
+                            if (post_schedule_check) {
+                                formData.append("published", !post_schedule_check);
+                                formData.append("scheduled_publish_time", post_schedule_check == true ? time_to_post : null);
+                            }
+                            //$("#loading").show();
+                            $("#loading-" + element.page_id).css("display", "inline");
+                            $.ajax({
+                                url: `https://graph-video.facebook.com/${version}/${element.page_id}/videos`,
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                data: formData,
+                                success: function (data, status) {
+                                    $.notify(`Posted Video Status [${element.page_name} - ${element.page_id}] - ${status}`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "success", });
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#success-" + element.page_id).css("display", "inline");
+                                    //$("#loading").show();
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    //$("#loading").show();
+                                    $.notify(`Posted Video Status [${element.page_name} - ${element.page_id}] - ${xhr.status} - ${xhr.responseText}`,
+                                        { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", }
+                                    );
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#error-" + element.page_id).css("display", "inline");
+                                },
+                            });
+                        };
+                    }
+                    else {
+                        // Upload Local Video Reel
+                        for (var i = 0; i < selected_files.length; i++) {
+                            post_title = $(`#post_title_${i + 1}`).val();
+                            post_description = $(`#post_description_${i + 1}`).val();
+                            post_schedule_check = $(`#post_schedule_check_${i + 1}`).is(":checked");
+                            time_to_post = Math.round((moment($(`#post_schedule_date_${i + 1}`).val(), "DD-MM-YYYY hh:mm:ss").toDate().getTime() + 0 * 60 * 1000) / 1000);
+
+                            step2 = new FormData();
+                            step2.append("version", version);
+                            step2.append("page_id", element.page_id);
+                            step2.append("page_token", element.token);
+                            step2.append("VideoFile", selected_files[i]);
+                            step2.append("upload_url", null);
+                            step2.append("post_title", post_title);
+                            step2.append("post_description", post_description);
+                            step2.append("post_schedule_check", post_schedule_check);
+                            step2.append("time_to_post", time_to_post);
+
+                            //$("#loading").show();
+                            $("#loading-" + element.page_id).css("display", "inline");
+                            $.ajax({
+                                //url: "@Url.Action("PostReel", "Home")",
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                enctype: 'multipart/form-data',
+                                data: step2,
+                                success: function (data2, status2) {
+                                    $.notify(`Posted Reels Message [${element.page_name} - ${element.page_id}] - ${JSON.parse(data2).message}`, { autoHideDelay: 600000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "success", });
+                                    console.log(JSON.parse(data2).message);
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#success-" + element.page_id).css("display", "inline");
+                                    //$("#loading").show();
+                                },
+                                error: function (xhr, ajaxOptions, thrownError) {
+                                    $.notify(`Posted Reels Status [${element.page_name} - ${element.page_id}] - ${xhr.status} - ${xhr.responseText}`, { autoHideDelay: 60000, showAnimation: "fadeIn", hideAnimation: "fadeOut", hideDuration: 700, arrowShow: false, className: "error", }
+                                    );
+                                    //$("#loading").show();
+                                    $("#loading-" + element.page_id).css("display", "none");
+                                    $("#error-" + element.page_id).css("display", "inline");
+                                    console.log("step 2 error");
+                                    console.log(xhr);
+                                    console.log(ajaxOptions);
+                                    console.log(thrownError);
+                                },
+                            });
+                        }
+                    }
+                });
+            }
+
+        });
+
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .padding-bottom-15 {
+            padding-bottom: 15px;
+        }
+
+        .hideme {
+            display: none;
+        }
+
+        .blur-text {
+            text-shadow: 0 0 8px #000;
+            color: transparent;
+        }
+
+        .a-hover-noline:hover {
+            text-decoration: none;
+            color: red;
+            font-weight: bolder;
+        }
+
+        #loading {
+            position: fixed;
+            height: 100%;
+            z-index: 9999;
+            width: 100%;
+            text-align: center;
+            padding-top: 20%;
+            display: none;
+        }
+
+        /*Top Menu*/
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .topnav a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        .topnav .icon {
+            display: none;
+        }
+
+        @media screen and (max-width: 600px) {
+            .topnav a:not(:first-child) {
+                display: none;
+            }
+
+            .topnav a.icon {
+                float: right;
+                display: block;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .topnav.responsive {
+                position: relative;
+            }
+
+            .topnav.responsive .icon {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .topnav.responsive a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(32px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Login View ── */
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--fb-blue);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            color: var(--muted);
+            font-weight: 400;
+            font-size: 13px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        h1 em {
+            color: var(--fb-blue);
+            font-style: normal;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 36px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider span {
+            font-size: 12px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .btn-fb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--fb-blue);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s, transform .15s, box-shadow .2s;
+            box-shadow: 0 4px 24px rgba(24, 119, 242, 0.35);
+        }
+
+        .btn-fb:hover {
+            background: var(--fb-hover);
+            box-shadow: 0 6px 32px rgba(24, 119, 242, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-fb:active {
+            transform: translateY(0);
+        }
+
+        .btn-fb svg {
+            flex-shrink: 0;
+        }
+
+        .notice {
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .notice a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* ── Profile View ── */
+        #profile-view {
+            display: none;
+        }
+
+        .profile-header {
+            text-align: center;
+            /* margin-bottom: 28px; */
+        }
+
+        .avatar-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--fb-blue);
+            object-fit: cover;
+        }
+
+        .avatar-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 22px;
+            height: 22px;
+            background: var(--success);
+            border: 2px solid var(--surface);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .avatar-badge svg {
+            width: 10px;
+            height: 10px;
+            fill: #fff;
+        }
+
+        .profile-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-tag {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 13px 16px;
+            animation: fadeIn .4s ease both;
+        }
+
+        .info-row:nth-child(2) {
+            animation-delay: .05s;
+        }
+
+        .info-row:nth-child(3) {
+            animation-delay: .1s;
+        }
+
+        .info-row:nth-child(4) {
+            animation-delay: .15s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .info-icon {
+            width: 34px;
+            height: 34px;
+            background: rgba(24, 119, 242, 0.12);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .info-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .info-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            /* width: 100%; */
+            margin: auto;
+            padding: 13px 20px;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            color: #e55;
+            transition: border-color .2s, color .2s, background .2s;
+        }
+
+        .btn-logout:hover {
+            border-color: #e55;
+            color: #e55;
+            background: rgba(229, 85, 85, 0.05);
+        }
+
+        /* ── Loading ── */
+        .spinner {
+            display: none;
+            width: 22px;
+            height: 22px;
+            border: 2.5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            /* margin: 0 auto; */
+        }
+
+        .btn-fb.loading .btn-label {
+            display: none;
+        }
+
+        .btn-fb.loading .spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── SDK Config Notice ── */
+        .sdk-notice {
+            background: rgba(255, 193, 7, 0.08);
+            border: 1px solid rgba(255, 193, 7, 0.25);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 24px;
+            font-size: 12.5px;
+            color: #fcd34d;
+            line-height: 1.6;
+        }
+
+        .sdk-notice strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .sdk-notice code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">
+        <i class="fa fa-refresh fa-spin text-primary" style="font-size: 32px;"></i>
+    </div>
+
+    <div class="col-lg-2 hidden-xs" style="background-color: red; visibility: hidden">
+        Left Ads
+    </div>
+    <div class="col-lg-8" style="padding: 0;">
+        <div class="topnav" id="myTopnav">
+            <a href="#" class="active">CamboDev FB Post</a>
+            <a href="https://www.facebook.com/CamboDev/" target="_blank" title="Our Facebook Page"><i
+                    class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://www.youtube.com/@CamboDev" target="_blank" title="Our YouTube Channel"><i
+                    class="fa fa-youtube-play" aria-hidden="true"></i></a>
+            <a href="https://t.me/CamboDev" target="_blank" title="Our Telegram Group"><i
+                    class="fa fa-telegram"></i></a>
+            <a href="privacy-policy" target="_blank" title="Privacy Policy"><i class="fa fa-user-secret"></i></a>
+            <a href="terms-of-service" target="_blank" title="Terms of Service"><i class="fa fa-file-text"></i></a>
+            <a href="#" id="toggle-profile-view" title="Show/Hide Profile"><i class="fa fa-user"></i></a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <div class="col-lg-12" style="visibility: hidden">
+            <center>Center Ads</center>
+        </div>
+        <div class="col-lg-12 hidden">
+            <div class="form-group col-lg-2">
+                <label for="app_id">App ID *</label>
+                <input type="text" class="form-control" id="app_id" name="app_id" />
+            </div>
+            <div class="form-group col-lg-4">
+                <label for="app_secret">App Secret *</label>
+                <input type="password" class="form-control" id="app_secret" name="app_secret" />
+            </div>
+            <div class="form-group col-lg-4">
+                <label for="short_live_access_token">Access Token *</label>
+                <input type="text" class="form-control" id="short_live_access_token" name="short_live_access_token" />
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="add_token"> &nbsp; </label>
+                <button type="button" class="form-control btn btn-success" id="add_token" name="add_token">
+                    Update Token
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <!-- LOGIN VIEW -->
+            <div id="login-view">
+
+                <button class="btn-fb" id="fb-login-btn" onclick="loginWithFacebook()">
+                    <span class="btn-label" style="display:flex;align-items:center;gap:10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        Continue with Facebook
+                    </span>
+                    <div class="spinner"></div>
+                </button>
+
+                <p class="notice">
+                    By continuing, you agree to our <a href="terms-of-service">Terms of Service</a> and <a
+                        href="privacy-policy">Privacy Policy</a>.<br />
+                    We only request public profile information.
+                </p>
+            </div>
+        </div>
+
+        <!-- PROFILE VIEW -->
+        <div id="profile-view" class="col-lg-12">
+            <div class="profile-header">
+                <div class="avatar-wrap">
+                    <img class="avatar" id="user-avatar" src="https://cambodev.site/CamboDev.png" alt="Profile photo" />
+                    <div class="avatar-badge hidden">
+                        <svg viewBox="0 0 12 12">
+                            <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="profile-name" id="user-name">—</div>
+                <div class="profile-tag hidden">Facebook Account</div>
+            </div>
+
+            <div class="info-grid hidden">
+                <div class="info-row">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                        </svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value" id="info-name">—</div>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M2 8l10 7 10-7" />
+                        </svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="info-email">—</div>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" />
+                            <path d="M16 3h-8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z" />
+                        </svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">User ID</div>
+                        <div class="info-value" id="info-id">—</div>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 8v4l3 3" />
+                        </svg>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Logged In At</div>
+                        <div class="info-value" id="info-time">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-logout" onclick="confirmLogout()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                Sign Out
+            </button>
+            <hr />
+        </div>
+
+        <div class="col-lg-12 hidden">
+            <div class="col-lg-12">
+                Name: <span id="account_name"></span><br />
+                ID: <span id="account_id" class="blur-text"></span><br />
+                Picture: <br /><img id="account_picture" src="" width="100" height="100" />
+            </div>
+        </div>
+        <div class="col-lg-12" style="display: inline-block;">
+            <div class="col-lg-12" id="page_list" style="padding-left: 0; padding-right: 0">
+                <!-- page_list -->
+            </div>
+        </div>
+        <div class="col-lg-12 post_videos_list" id="post_videos_list">
+            <hr />
+            <div class="col-lg-12">
+                <div id="tabs" style="overflow: overlay; background-color: #2b3e50; border: none;">
+                    <ul>
+                        <li><a href="#tabs-1"><i class="fa fa-picture-o" aria-hidden="true"></i> Post Photos</a></li>
+                        <li><a href="#tabs-2"><i class="fa fa-file-video-o" aria-hidden="true"></i> Post
+                                Videos/Reels</a></li>
+                        <!-- <li><a href="#tabs-3">Post Reels</a></li> -->
+                    </ul>
+                    <div id="tabs-1">
+                        <p>
+                        <div class="" style="clear: both;">
+                            <div class="form-group col-lg-3">
+                                <label for="post_photo_file" class="btn btn-warning"><i class="fa fa-upload"
+                                        aria-hidden="true"></i> Upload Photos</label>
+                                <input type="file" id="post_photo_file" name="post_photo_file"
+                                    accept=".jpg, .png, .jpeg, .bmp, .tif, .tiff, .gif" multiple
+                                    style="visibility: hidden" />
+                            </div>
+                        </div>
+                        </p>
+                    </div>
+                    <div id="tabs-2">
+                        <p>
+                        <div style="clear: both;">
+                            <div class="form-group col-lg-3">
+                                <label for="post_video_file" class="btn btn-warning"><i class="fa fa-upload"
+                                        aria-hidden="true"></i> Upload Videos</label>
+                                <input type="file" id="post_video_file" name="post_video_file" accept=".mp4, .avi"
+                                    multiple style="visibility: hidden" />
+                            </div>
+                        </div>
+                        </p>
+                    </div>
+                    <!-- <div id="tabs-3">
+                            <p>Post Reels</p>
+                        </div> -->
+                    <div class="post_info" id="post_info" style="color: gray;">
+                        <!-- title description schedule -->
+                    </div>
+                    <div class="" style="clear: both;">
+                        <div class="form-group col-lg-2 upload_post" style="display: none">
+                            <label for="upload_post"> &nbsp; </label>
+                            <button type="button" class="form-control btn btn-success" id="upload_post"
+                                name="upload_post">
+                                Post Videos/Reels
+                            </button>
+                        </div>
+                        <!-- <div class="form-group col-lg-2 upload_post_reels" style="display: none">
+                            <label for="upload_post_reels"> &nbsp; </label>
+                            <button type="button" class="form-control btn btn-success" id="upload_post_reels"
+                                name="upload_post_reels">
+                                Post Reels
+                            </button>
+                        </div> -->
+                    </div>
+                    <div class="" style="clear: both;">
+                        <div class="form-group col-lg-2 upload_photo_all_one" style="display: none">
+                            <label for="upload_photo_all_one"> &nbsp; </label>
+                            <button type="button" class="form-control btn btn-success" id="upload_photo_all_one"
+                                name="upload_photo_all_one">
+                                All Photos One Post
+                            </button>
+                        </div>
+                        <div class="form-group col-lg-2 upload_photo_one_one" style="display: none">
+                            <label for="upload_photo_one_one"> &nbsp; </label>
+                            <button type="button" class="form-control btn btn-success" id="upload_photo_one_one"
+                                name="upload_photo_one_one">
+                                One Photo One Post
+                            </button>
+                        </div>
+                        <div class="form-group col-lg-2 post_photo_cta_like_page" style="display: none">
+                            <label for="post_photo_cta_like_page"> &nbsp; </label>
+                            <button type="button" class="form-control btn btn-success" id="post_photo_cta_like_page"
+                                name="post_photo_cta_like_page">
+                                Photos CTA Like Page
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-lg-12">
+            <hr />
+            <div id="post_list">
+                <!-- <div class="col-lg-12">
+                  Title: <span class="post-title">Post Title</span> |
+                  Date: <span class="post-date">Post Date</span> |
+                  Delete <input type="checkbox" class="form-check-input delete-post" token="" pagename="" id="" name="" value="100">
+                </div> -->
+                <!-- <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Select</th>
+                      <th>Title</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>John</td>
+                      <td>Doe</td>
+                      <td>john@example.com</td>
+                    </tr>
+                  </tbody>
+                </table> -->
+            </div>
+        </div>
+
+
+        <div class="col-lg-12">
+            <h5 class="text-warning"><i class="fa fa-info-circle" aria-hidden="true"></i> Please Reload Page After
+                Posted Or Deleted</h5>
+        </div>
+
+
+        <div class="col-lg-12 text-success">
+            <h5><i class="fa fa-question-circle" aria-hidden="true"></i> <i class="fa fa-comment"
+                    aria-hidden="true"></i> Telegram: <a href="https://t.me/CamboDev"
+                    target="_blank">https://t.me/CamboDev</a></h5>
+        </div>
+
+    </div>
+    <div class="col-lg-2" style="background-color: red; visibility: hidden">
+        Right Ads
+    </div>
+</body>
+
+</html>

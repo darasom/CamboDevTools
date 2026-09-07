@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facebook Login</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0c10;
+      --surface: #12151c;
+      --border: #1e2330;
+      --fb-blue: #1877f2;
+      --fb-hover: #0f65d4;
+      --accent: #4fa3ff;
+      --text: #e8eaf0;
+      --muted: #6b7280;
+      --success: #34d399;
+      --radius: 16px;
+    }
+
+    html,
+    body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Ambient background blobs */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 600px;
+      height: 600px;
+      background: #1877f2;
+      top: -200px;
+      left: -200px;
+    }
+
+    body::after {
+      width: 500px;
+      height: 500px;
+      background: #4f46e5;
+      bottom: -200px;
+      right: -150px;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 420px;
+      max-width: 95vw;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+      animation: slideUp .6s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(32px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Login View ── */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--fb-blue);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 13px;
+      display: block;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    h1 em {
+      color: var(--fb-blue);
+      font-style: normal;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .btn-fb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--fb-blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(24, 119, 242, 0.35);
+    }
+
+    .btn-fb:hover {
+      background: var(--fb-hover);
+      box-shadow: 0 6px 32px rgba(24, 119, 242, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-fb:active {
+      transform: translateY(0);
+    }
+
+    .btn-fb svg {
+      flex-shrink: 0;
+    }
+
+    .notice {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .notice a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── Profile View ── */
+    #profile-view {
+      display: none;
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--fb-blue);
+      object-fit: cover;
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 22px;
+      height: 22px;
+      background: var(--success);
+      border: 2px solid var(--surface);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    .avatar-badge svg {
+      width: 10px;
+      height: 10px;
+      fill: #fff;
+    }
+
+    .profile-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .profile-tag {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .info-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px;
+      animation: fadeIn .4s ease both;
+    }
+
+    .info-row:nth-child(2) {
+      animation-delay: .05s;
+    }
+
+    .info-row:nth-child(3) {
+      animation-delay: .1s;
+    }
+
+    .info-row:nth-child(4) {
+      animation-delay: .15s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .info-icon {
+      width: 34px;
+      height: 34px;
+      background: rgba(24, 119, 242, 0.12);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .info-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .info-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .info-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 2px;
+    }
+
+    .info-value {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 24px;
+      padding: 13px 20px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .btn-logout:hover {
+      border-color: #e55;
+      color: #e55;
+      background: rgba(229, 85, 85, 0.05);
+    }
+
+    /* ── Loading ── */
+    .spinner {
+      display: none;
+      width: 22px;
+      height: 22px;
+      border: 2.5px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto;
+    }
+
+    .btn-fb.loading .btn-label {
+      display: none;
+    }
+
+    .btn-fb.loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── SDK Config Notice ── */
+    .sdk-notice {
+      background: rgba(255, 193, 7, 0.08);
+      border: 1px solid rgba(255, 193, 7, 0.25);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 24px;
+      font-size: 12.5px;
+      color: #fcd34d;
+      line-height: 1.6;
+    }
+
+    .sdk-notice strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .sdk-notice code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view">
+      <div class="logo-wrap">
+        <div class="logo-icon">f</div>
+        <div class="logo-text">
+          Facebook Auth
+          <span>Secure OAuth 2.0</span>
+        </div>
+      </div>
+
+      <h1>Sign in with<br /><em>Facebook</em></h1>
+      <p class="subtitle">Connect your Facebook account to access your profile information instantly.</p>
+
+      <div class="sdk-notice">
+        <strong>⚙️ Developer Setup Required</strong>
+        Replace <code>YOUR_APP_ID</code> in the script below with your
+        <a href="https://developers.facebook.com/apps" target="_blank" style="color:#fcd34d">Facebook App ID</a>.
+        Your app must have <em>Valid OAuth Redirect URIs</em> set to this page's URL.
+      </div>
+
+      <div class="divider"><span>continue with</span></div>
+
+      <button class="btn-fb" id="fb-login-btn" onclick="loginWithFacebook()">
+        <span class="btn-label" style="display:flex;align-items:center;gap:10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <path
+              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg>
+          Continue with Facebook
+        </span>
+        <div class="spinner"></div>
+      </button>
+
+      <p class="notice">
+        By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.<br />
+        We only request public profile information.
+      </p>
+    </div>
+
+    <!-- PROFILE VIEW -->
+    <div id="profile-view">
+      <div class="profile-header">
+        <div class="avatar-wrap">
+          <img class="avatar" id="user-avatar" src="" alt="Profile photo" />
+          <div class="avatar-badge">
+            <svg viewBox="0 0 12 12">
+              <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                fill="none" />
+            </svg>
+          </div>
+        </div>
+        <div class="profile-name" id="user-name">—</div>
+        <div class="profile-tag">Facebook Account</div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">Full Name</div>
+            <div class="info-value" id="info-name">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M2 8l10 7 10-7" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">Email</div>
+            <div class="info-value" id="info-email">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z" />
+              <path d="M16 3h-8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">User ID</div>
+            <div class="info-value" id="info-id">—</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4l3 3" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <div class="info-label">Logged In At</div>
+            <div class="info-value" id="info-time">—</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-logout" onclick="logout()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        Sign out
+      </button>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
+     Facebook JavaScript SDK
+     Replace YOUR_APP_ID with your real Facebook App ID
+     ====================================================== -->
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '846990801757153',   // <-- Replace this
+        cookie: true,
+        xfbml: true,
+        version: 'v19.0'
+      });
+
+      // Auto-restore session on page load
+      FB.getLoginStatus(function (response) {
+        if (response.status === 'connected') {
+          fetchUserInfo();
+        }
+      });
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <script>
+    function loginWithFacebook() {
+      const btn = document.getElementById('fb-login-btn');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      FB.login(function (response) {
+        if (response.authResponse) {
+          fetchUserInfo();
+        } else {
+          btn.classList.remove('loading');
+          btn.disabled = false;
+          alert('Login was cancelled or failed. Please try again.');
+        }
+      }, { scope: 'public_profile,email,pages_show_list,pages_read_engagement,pages_manage_posts' });
+    }
+
+    function fetchUserInfo() {
+      FB.api('/me', { fields: 'id,name,email,picture.width(200)' }, function (data) {
+        if (data && !data.error) {
+          console.log('Graph API response:', data);
+
+          FB.api('/me/accounts', function (response) {
+            console.log('User Pages response:', response);
+            const pages = response.data;
+            const myPage = pages[0]; // Pick the page you want
+            const pageAccessToken = myPage.access_token;
+            const pageId = myPage.id;
+            /* FB.api(
+              `/${pageId}/feed`,
+              'POST',
+              {
+                "message": "Hello from my new app!",
+                "access_token": pageAccessToken // Use the Page Token, NOT the User Token
+              },
+              function (response) {
+                if (response && !response.error) {
+                  alert('Post ID: ' + response.id);
+                } else {
+                  console.error('Error occurred', response.error);
+                }
+              }
+            ); */
+          });
+
+          showProfile(data);
+        } else {
+          console.error('Graph API error:', data.error);
+          alert('Could not retrieve user info. Please try again.');
+          resetBtn();
+        }
+      });
+    }
+
+    function showProfile(data) {
+      document.getElementById('user-avatar').src =
+        data.picture?.data?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name)}&background=1877f2&color=fff&size=160`;
+      document.getElementById('user-name').textContent = data.name || '—';
+      document.getElementById('info-name').textContent = data.name || '—';
+      document.getElementById('info-email').textContent = data.email || 'Not provided';
+      document.getElementById('info-id').textContent = data.id || '—';
+      document.getElementById('info-time').textContent = new Date().toLocaleString();
+
+      document.getElementById('login-view').style.display = 'none';
+      document.getElementById('profile-view').style.display = 'block';
+    }
+
+    function logout() {
+      FB.logout(function () {
+        document.getElementById('login-view').style.display = 'block';
+        document.getElementById('profile-view').style.display = 'none';
+        resetBtn();
+      });
+    }
+
+    function resetBtn() {
+      const btn = document.getElementById('fb-login-btn');
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  </script>
+
+</body>
+
+</html>

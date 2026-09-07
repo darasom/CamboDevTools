@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cambodev.site/CamboDev.png" />
+    <link rel="apple-touch-icon" href="https://cambodev.site/CamboDev.png" />
+    <link rel="apple-touch-icon-precomposed" href="https://cambodev.site/CamboDev.png" />
+    <meta name="description" content="CamboDev Tools — A platform for sharing knowledge, collaborating on projects, and discovering useful tools built for developers." />
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://www.cambodev.site">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CamboDev Tools">
+    <meta property="og:description"
+        content="A platform for sharing knowledge, collaborating on projects, and discovering useful tools built for developers.">
+    <meta property="og:image" content="https://cambodev.site/CamboDev.png">
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="cambodev.site">
+    <meta property="twitter:url" content="https://www.cambodev.site">
+    <meta name="twitter:title" content="CamboDev Tools">
+    <meta name="twitter:description"
+        content="A platform for sharing knowledge, collaborating on projects, and discovering useful tools built for developers.">
+    <meta name="twitter:image" content="https://cambodev.site/CamboDev.png">
+    <title>CamboDev Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        body {
+            background: var(--color-background-tertiary);
+            font-family: var(--font-sans);
+        }
+
+        .hero {
+            background: var(--color-background-primary);
+            border-bottom: 0.5px solid var(--color-border-tertiary);
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .badge-pill {
+            background: #EEEDFE;
+            color: #3C3489;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .tools-section {
+            padding: 2rem 1.5rem;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-text-tertiary);
+            margin-bottom: 1rem;
+        }
+
+        .tool-card {
+            background: var(--color-background-primary);
+            border: 0.5px solid var(--color-border-tertiary);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: border-color 0.15s;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            border-color: var(--color-border-primary);
+            text-decoration: none;
+        }
+
+        .tool-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+
+        .icon-blue {
+            background: #E6F1FB;
+            color: #185FA5;
+        }
+
+        .icon-teal {
+            background: #E1F5EE;
+            color: #0F6E56;
+        }
+
+        .tool-info h3 {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin: 0 0 4px;
+        }
+
+        .tool-info p {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .tool-arrow {
+            margin-left: auto;
+            font-size: 13px;
+            color: var(--color-text-tertiary);
+            padding-top: 2px;
+        }
+
+        .navbar-custom {
+            background: var(--color-background-primary);
+            border-bottom: 0.5px solid var(--color-border-tertiary);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-brand-custom {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            background: #534AB7;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #EEEDFE;
+        }
+
+        .nav-link-custom {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: var(--border-radius-md);
+        }
+
+        .nav-link-custom:hover {
+            background: var(--color-background-secondary);
+            color: var(--color-text-primary);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 12px;
+            color: var(--color-text-tertiary);
+            border-top: 0.5px solid var(--color-border-tertiary);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar-custom">
+        <div class="navbar-brand-custom">
+            <div class="brand-icon"><i class="fa-solid fa-code"></i></div>
+            CamboDev Tools
+        </div>
+        <nav style="display:flex;gap:4px;">
+            <a href="#" class="nav-link-custom"><i class="fa-solid fa-house"
+                    style="font-size:11px;margin-right:4px;"></i>Home</a>
+            <a href="#" class="nav-link-custom"><i class="fa-solid fa-wrench"
+                    style="font-size:11px;margin-right:4px;"></i>Tools</a>
+        </nav>
+    </div>
+
+    <div class="hero">
+        <h1><i class="fa-solid fa-layer-group" style="color:#534AB7;margin-right:10px;"></i>Welcome to CamboDev Tools
+        </h1>
+        <h3>A platform for sharing knowledge, collaborating on projects, and discovering useful tools built for
+            developers.</h3>
+    </div>
+
+    <div class="tools-section">
+        <div class="section-label"><i class="fa-solid fa-grid-2" style="margin-right:6px;"></i>Our tools</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <a href="post-to-facebook" class="tool-card">
+                <div class="tool-icon icon-blue">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </div>
+                <div class="tool-info">
+                    <h3>Post Photos or Videos to Facebook</h3>
+                    <p>Upload and publish media content directly to Facebook from your browser — no extra apps needed.
+                    </p>
+                </div>
+                <div class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            </a>
+
+            <a href="image-compressor-resizer" class="tool-card">
+                <div class="tool-icon icon-teal">
+                    <i class="fa-solid fa-compress"></i>
+                </div>
+                <div class="tool-info">
+                    <h3>Image Compressor and Resizer</h3>
+                    <p>Reduce image file sizes and resize dimensions quickly — perfect for optimizing assets for the
+                        web.</p>
+                </div>
+                <div class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            </a>
+
+            <a href="qr-generator" class="tool-card">
+                <div class="tool-icon icon-blue">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <div class="tool-info">
+                    <h3>QR Code Generator</h3>
+                    <p>Create QR codes for URLs, text, or contact info — easily shareable and scannable by anyone.</p>
+                </div>
+                <div class="tool-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+
+            </a>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <i class="fa-solid fa-heart" style="color:#D85A30;margin-right:5px;"></i>Built with love for the developer
+        community &mdash; CamboDev Tools &copy; 2026
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
