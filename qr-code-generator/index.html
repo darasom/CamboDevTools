@@ -1,37 +1,42 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="qrsmith-preview.png" />
-<link rel="apple-touch-icon" href="qrsmith-preview.png" />
-<link rel="apple-touch-icon-precomposed" href="qrsmith-preview.png" />
-<title>CamboDev QRSmith — Free QR Code Generator with Logo &amp; Custom Colors</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="qrsmith-preview.png" />
+  <link rel="apple-touch-icon" href="qrsmith-preview.png" />
+  <link rel="apple-touch-icon-precomposed" href="qrsmith-preview.png" />
+  <title>CamboDev QRSmith — Free QR Code Generator with Logo &amp; Custom Colors</title>
 
-<!-- Primary SEO -->
-<meta name="description" content="Generate custom QR codes for free. Add your own text or URL, choose the QR and background colors, upload a logo, and download the result as a PNG — all in your browser.">
-<meta name="keywords" content="QR code generator, free QR code, custom QR code, QR code with logo, colored QR code, QR code maker, download QR code, online QR generator">
-<meta name="author" content="CamboDev QRSmith">
-<meta name="robots" content="index, follow">
-<meta name="language" content="English">
-<link rel="canonical" href="https://cambodev.site/qr-code-generator">
+  <!-- Primary SEO -->
+  <meta name="description"
+    content="Generate custom QR codes for free. Add your own text or URL, choose the QR and background colors, upload a logo, and download the result as a PNG — all in your browser.">
+  <meta name="keywords"
+    content="QR code generator, free QR code, custom QR code, QR code with logo, colored QR code, QR code maker, download QR code, online QR generator">
+  <meta name="author" content="CamboDev QRSmith">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <link rel="canonical" href="https://cambodev.site/qr-code-generator">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="CamboDev QRSmith — Free QR Code Generator with Logo & Custom Colors">
-<meta property="og:description" content="Create a custom QR code from any text or link. Pick your own colors, add a logo, and download it as a PNG in seconds.">
-<meta property="og:url" content="https://cambodev.site/qr-code-generator">
-<meta property="og:site_name" content="CamboDev QRSmith">
-<meta property="og:image" content="https://cambodev.site/qr-code-generator/qrsmith-preview.png">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CamboDev QRSmith — Free QR Code Generator with Logo & Custom Colors">
+  <meta property="og:description"
+    content="Create a custom QR code from any text or link. Pick your own colors, add a logo, and download it as a PNG in seconds.">
+  <meta property="og:url" content="https://cambodev.site/qr-code-generator">
+  <meta property="og:site_name" content="CamboDev QRSmith">
+  <meta property="og:image" content="https://cambodev.site/qr-code-generator/qrsmith-preview.png">
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CamboDev QRSmith — Free QR Code Generator with Logo & Custom Colors">
-<meta name="twitter:description" content="Create a custom QR code from any text or link. Pick your own colors, add a logo, and download it as a PNG in seconds.">
-<meta name="twitter:image" content="https://cambodev.site/qr-code-generator/qrsmith-preview.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CamboDev QRSmith — Free QR Code Generator with Logo & Custom Colors">
+  <meta name="twitter:description"
+    content="Create a custom QR code from any text or link. Pick your own colors, add a logo, and download it as a PNG in seconds.">
+  <meta name="twitter:image" content="https://cambodev.site/qr-code-generator/qrsmith-preview.png">
 
-<!-- Structured data -->
-<script type="application/ld+json">
+  <!-- Structured data -->
+  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -48,589 +53,690 @@
 }
 </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-  :root{
-    --ink:#14171f;
-    --ink-soft:#1b1f29;
-    --ink-line:#2b303c;
-    --paper:#ece8dc;
-    --paper-edge:#d8d2bf;
-    --paper-line:#c9c2ac;
-    --indigo:#5768ff;
-    --indigo-dim:#4553d9;
-    --text:#ece8dc;
-    --muted:#8b90a0;
-    --muted-on-paper:#75705f;
-    --danger:#ff6b5e;
-  }
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ3M86KKB7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  *{box-sizing:border-box;}
+    gtag('config', 'G-XZ3M86KKB7');
+  </script>
 
-  html,body{height:100%;}
+  <style>
+    :root {
+      --ink: #14171f;
+      --ink-soft: #1b1f29;
+      --ink-line: #2b303c;
+      --paper: #ece8dc;
+      --paper-edge: #d8d2bf;
+      --paper-line: #c9c2ac;
+      --indigo: #5768ff;
+      --indigo-dim: #4553d9;
+      --text: #ece8dc;
+      --muted: #8b90a0;
+      --muted-on-paper: #75705f;
+      --danger: #ff6b5e;
+    }
 
-  body{
-    background:var(--ink);
-    color:var(--text);
-    font-family:'Space Grotesk', sans-serif;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .mono{font-family:'JetBrains Mono', monospace;}
+    html,
+    body {
+      height: 100%;
+    }
 
-  /* ---------- topbar ---------- */
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:1.5rem clamp(1.25rem, 4vw, 3rem);
-    border-bottom:1px solid var(--ink-line);
-  }
-  .brand{
-    font-weight:700;
-    font-size:1.15rem;
-    letter-spacing:0.01em;
-  }
-  .brand span{color:var(--indigo);}
-  .status{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.8rem;
-    color:var(--muted);
-    display:flex;
-    align-items:center;
-    gap:0.5rem;
-  }
-  .status .dot{
-    width:7px;height:7px;border-radius:50%;
-    background:var(--indigo);
-    box-shadow:0 0 0 3px rgba(87,104,255,0.18);
-  }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  /* ---------- layout ---------- */
-  .layout{
-    flex:1;
-    display:grid;
-    grid-template-columns:1.15fr 0.85fr;
-    gap:clamp(1.25rem, 3vw, 2.5rem);
-    padding:clamp(1.5rem, 4vw, 3rem);
-    max-width:1180px;
-    margin:0 auto;
-    width:100%;
-  }
-  @media (max-width: 900px){
-    .layout{grid-template-columns:1fr;}
-  }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-  .panel{
-    background:var(--ink-soft);
-    border:1px solid var(--ink-line);
-    border-radius:18px;
-    padding:clamp(1.5rem, 3vw, 2.25rem);
-  }
+    /* ---------- topbar ---------- */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem clamp(1.25rem, 4vw, 3rem);
+      border-bottom: 1px solid var(--ink-line);
+    }
 
-  h1{
-    font-size:clamp(1.5rem, 2.4vw, 1.9rem);
-    font-weight:600;
-    line-height:1.25;
-    margin-bottom:0.6rem;
-  }
-  .lede{
-    color:var(--muted);
-    font-size:0.98rem;
-    line-height:1.55;
-    max-width:46ch;
-    margin-bottom:1.75rem;
-  }
+    .brand {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+    }
 
-  /* ---------- form ---------- */
-  .field{margin-bottom:1.4rem;}
-  .field-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:1rem;
-  }
-  @media (max-width: 480px){
-    .field-row{grid-template-columns:1fr;}
-  }
+    .brand span {
+      color: var(--indigo);
+    }
 
-  label{
-    display:block;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.78rem;
-    color:var(--muted);
-    margin-bottom:0.55rem;
-  }
-  label .optional{
-    color:#5c6172;
-    font-style:italic;
-  }
+    .status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-  textarea#content{
-    width:100%;
-    resize:vertical;
-    min-height:88px;
-    background:var(--ink);
-    border:1px solid var(--ink-line);
-    border-radius:10px;
-    color:var(--text);
-    padding:0.85rem 1rem;
-    font-family:'Space Grotesk', sans-serif;
-    font-size:0.95rem;
-    line-height:1.5;
-    transition:border-color .15s ease, box-shadow .15s ease;
-  }
-  textarea#content::placeholder{color:#5c6172;}
-  textarea#content:focus{
-    outline:none;
-    border-color:var(--indigo);
-    box-shadow:0 0 0 3px rgba(87,104,255,0.18);
-  }
-  textarea#content.is-invalid{
-    border-color:var(--danger);
-  }
+    .status .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--indigo);
+      box-shadow: 0 0 0 3px rgba(87, 104, 255, 0.18);
+    }
 
-  .hint{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.72rem;
-    color:#5c6172;
-    margin-top:0.5rem;
-  }
-  .hint.error{color:var(--danger);}
+    /* ---------- layout ---------- */
+    .layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(1.25rem, 3vw, 2.5rem);
+      padding: clamp(1.5rem, 4vw, 3rem);
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
 
-  .color-field{
-    display:flex;
-    align-items:center;
-    gap:0.6rem;
-    background:var(--ink);
-    border:1px solid var(--ink-line);
-    border-radius:10px;
-    padding:0.4rem 0.6rem;
-  }
-  .color-field input[type="color"]{
-    -webkit-appearance:none;
-    appearance:none;
-    width:34px;
-    height:34px;
-    border:none;
-    border-radius:8px;
-    background:none;
-    padding:0;
-    cursor:pointer;
-    flex-shrink:0;
-  }
-  .color-field input[type="color"]::-webkit-color-swatch-wrapper{padding:0;}
-  .color-field input[type="color"]::-webkit-color-swatch{border:1px solid var(--ink-line); border-radius:8px;}
-  .color-field input[type="text"]{
-    flex:1;
-    min-width:0;
-    background:transparent;
-    border:none;
-    color:var(--text);
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.85rem;
-    padding:0.3rem 0;
-  }
-  .color-field input[type="text"]:focus{outline:none;}
-  .color-field:focus-within{
-    border-color:var(--indigo);
-    box-shadow:0 0 0 3px rgba(87,104,255,0.18);
-  }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
 
-  /* ---------- dropzone ---------- */
-  .dropzone{
-    border:1.5px dashed var(--ink-line);
-    border-radius:10px;
-    background:var(--ink);
-    padding:1rem;
-    cursor:pointer;
-    transition:border-color .15s ease, background .15s ease;
-  }
-  .dropzone:hover, .dropzone.drag-over{
-    border-color:var(--indigo);
-    background:rgba(87,104,255,0.06);
-  }
-  .dz-empty{
-    text-align:center;
-    color:#5c6172;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.82rem;
-    padding:0.6rem 0.5rem;
-  }
-  .dz-filled{
-    display:flex;
-    align-items:center;
-    gap:0.75rem;
-  }
-  .dz-filled img{
-    width:44px;height:44px;
-    object-fit:contain;
-    border-radius:8px;
-    background:#fff;
-    padding:4px;
-  }
-  .dz-filled span{
-    flex:1;
-    min-width:0;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.8rem;
-    color:var(--muted);
-  }
-  .dz-filled button{
-    background:none;
-    border:none;
-    color:var(--muted);
-    font-size:1.3rem;
-    line-height:1;
-    cursor:pointer;
-    padding:0.2rem 0.5rem;
-  }
-  .dz-filled button:hover{color:var(--danger);}
+    .panel {
+      background: var(--ink-soft);
+      border: 1px solid var(--ink-line);
+      border-radius: 18px;
+      padding: clamp(1.5rem, 3vw, 2.25rem);
+    }
 
-  /* ---------- buttons ---------- */
-  .btn-generate, .btn-download{
-    width:100%;
-    border:none;
-    border-radius:10px;
-    padding:0.85rem 1rem;
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:600;
-    font-size:0.95rem;
-    cursor:pointer;
-    transition:background .15s ease, transform .1s ease, opacity .15s ease;
-  }
-  .btn-generate{
-    background:var(--indigo);
-    color:#fff;
-    margin-top:0.4rem;
-  }
-  .btn-generate:hover{background:var(--indigo-dim);}
-  .btn-generate:active{transform:scale(0.99);}
+    h1 {
+      font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+    }
 
-  .btn-download{
-    background:transparent;
-    color:var(--text);
-    border:1px solid var(--ink-line);
-    margin-top:1.25rem;
-  }
-  .btn-download:not(:disabled):hover{border-color:var(--indigo); color:var(--indigo);}
-  .btn-download:disabled{opacity:0.4; cursor:not-allowed;}
+    .lede {
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.55;
+      max-width: 46ch;
+      margin-bottom: 1.75rem;
+    }
 
-  /* ---------- preview / ticket ---------- */
-  .preview-panel{
-    display:flex;
-    flex-direction:column;
-    align-items:stretch;
-    justify-content:center;
-  }
+    /* ---------- form ---------- */
+    .field {
+      margin-bottom: 1.4rem;
+    }
 
-  .ticket{
-    background:var(--paper);
-    border-radius:14px;
-    position:relative;
-    overflow:hidden;
-  }
-  .ticket-body{
-    padding:2.25rem 1.5rem 1.75rem;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-  .perf{
-    height:14px;
-    background-image:radial-gradient(circle, var(--ink-soft) 6px, transparent 6.5px);
-    background-size:22px 22px;
-    background-position:center;
-    background-repeat:repeat-x;
-  }
-  .perf-top{margin-top:-7px;}
-  .perf-bottom{margin-bottom:-7px;}
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
 
-  .qr-stage{
-    width:220px;
-    height:220px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin-bottom:1.25rem;
-  }
-  .qr-stage img, .qr-stage canvas{
-    max-width:100%;
-    max-height:100%;
-    border-radius:4px;
-  }
-  .qr-placeholder{
-    width:100%;
-    height:100%;
-    border:1.5px dashed var(--paper-line);
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:1rem;
-  }
-  .qr-placeholder p{
-    margin:0;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.78rem;
-    color:var(--muted-on-paper);
-    line-height:1.5;
-  }
+    @media (max-width: 480px) {
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+    }
 
-  .ticket-meta{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.78rem;
-    color:var(--muted-on-paper);
-    max-width:220px;
-    text-align:center;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    border-top:1px dashed var(--paper-line);
-    padding-top:0.9rem;
-    width:100%;
-  }
-</style>
+    label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+
+    label .optional {
+      color: #5c6172;
+      font-style: italic;
+    }
+
+    textarea#content {
+      width: 100%;
+      resize: vertical;
+      min-height: 88px;
+      background: var(--ink);
+      border: 1px solid var(--ink-line);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.85rem 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    textarea#content::placeholder {
+      color: #5c6172;
+    }
+
+    textarea#content:focus {
+      outline: none;
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px rgba(87, 104, 255, 0.18);
+    }
+
+    textarea#content.is-invalid {
+      border-color: var(--danger);
+    }
+
+    .hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #5c6172;
+      margin-top: 0.5rem;
+    }
+
+    .hint.error {
+      color: var(--danger);
+    }
+
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--ink);
+      border: 1px solid var(--ink-line);
+      border-radius: 10px;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .color-field input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 8px;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .color-field input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-field input[type="color"]::-webkit-color-swatch {
+      border: 1px solid var(--ink-line);
+      border-radius: 8px;
+    }
+
+    .color-field input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      padding: 0.3rem 0;
+    }
+
+    .color-field input[type="text"]:focus {
+      outline: none;
+    }
+
+    .color-field:focus-within {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px rgba(87, 104, 255, 0.18);
+    }
+
+    /* ---------- dropzone ---------- */
+    .dropzone {
+      border: 1.5px dashed var(--ink-line);
+      border-radius: 10px;
+      background: var(--ink);
+      padding: 1rem;
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .dropzone:hover,
+    .dropzone.drag-over {
+      border-color: var(--indigo);
+      background: rgba(87, 104, 255, 0.06);
+    }
+
+    .dz-empty {
+      text-align: center;
+      color: #5c6172;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      padding: 0.6rem 0.5rem;
+    }
+
+    .dz-filled {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .dz-filled img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #fff;
+      padding: 4px;
+    }
+
+    .dz-filled span {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .dz-filled button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+    }
+
+    .dz-filled button:hover {
+      color: var(--danger);
+    }
+
+    /* ---------- buttons ---------- */
+    .btn-generate,
+    .btn-download {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background .15s ease, transform .1s ease, opacity .15s ease;
+    }
+
+    .btn-generate {
+      background: var(--indigo);
+      color: #fff;
+      margin-top: 0.4rem;
+    }
+
+    .btn-generate:hover {
+      background: var(--indigo-dim);
+    }
+
+    .btn-generate:active {
+      transform: scale(0.99);
+    }
+
+    .btn-download {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--ink-line);
+      margin-top: 1.25rem;
+    }
+
+    .btn-download:not(:disabled):hover {
+      border-color: var(--indigo);
+      color: var(--indigo);
+    }
+
+    .btn-download:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ---------- preview / ticket ---------- */
+    .preview-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .ticket {
+      background: var(--paper);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ticket-body {
+      padding: 2.25rem 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .perf {
+      height: 14px;
+      background-image: radial-gradient(circle, var(--ink-soft) 6px, transparent 6.5px);
+      background-size: 22px 22px;
+      background-position: center;
+      background-repeat: repeat-x;
+    }
+
+    .perf-top {
+      margin-top: -7px;
+    }
+
+    .perf-bottom {
+      margin-bottom: -7px;
+    }
+
+    .qr-stage {
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .qr-stage img,
+    .qr-stage canvas {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 4px;
+    }
+
+    .qr-placeholder {
+      width: 100%;
+      height: 100%;
+      border: 1.5px dashed var(--paper-line);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .qr-placeholder p {
+      margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted-on-paper);
+      line-height: 1.5;
+    }
+
+    .ticket-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted-on-paper);
+      max-width: 220px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-top: 1px dashed var(--paper-line);
+      padding-top: 0.9rem;
+      width: 100%;
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="topbar">
-  <div class="brand">QR<span>Smith</span></div>
-  <div class="status"><span class="dot"></span> ready to encode</div>
-</header>
+  <header class="topbar">
+    <div class="brand">QR<span>Smith</span></div>
+    <div class="status"><span class="dot"></span> ready to encode</div>
+  </header>
 
-<main class="layout">
+  <main class="layout">
 
-  <section class="panel form-panel">
-    <h1>Turn anything into a scan.</h1>
-    <p class="lede">Paste a link or type a message, tune the colors, drop in a logo, and get a QR code ready to print or share.</p>
+    <section class="panel form-panel">
+      <h1>Turn anything into a scan.</h1>
+      <p class="lede">Paste a link or type a message, tune the colors, drop in a logo, and get a QR code ready to print
+        or share.</p>
 
-    <form id="qrForm" novalidate>
-      <div class="field">
-        <label for="content">Content</label>
-        <textarea id="content" rows="3" placeholder="https://example.com or any text" required></textarea>
-        <div class="hint" id="contentHint">Works with links, plain text, wifi strings, anything.</div>
-      </div>
-
-      <div class="field-row">
+      <form id="qrForm" novalidate>
         <div class="field">
-          <label for="qrColorHex">QR color</label>
-          <div class="color-field">
-            <input type="color" id="qrColor" value="#14171f">
-            <input type="text" id="qrColorHex" class="mono" value="#14171F" maxlength="7" autocomplete="off">
+          <label for="content">Content</label>
+          <textarea id="content" rows="3" placeholder="https://example.com or any text" required></textarea>
+          <div class="hint" id="contentHint">Works with links, plain text, wifi strings, anything.</div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="qrColorHex">QR color</label>
+            <div class="color-field">
+              <input type="color" id="qrColor" value="#14171f">
+              <input type="text" id="qrColorHex" class="mono" value="#14171F" maxlength="7" autocomplete="off">
+            </div>
+          </div>
+          <div class="field">
+            <label for="bgColorHex">Background</label>
+            <div class="color-field">
+              <input type="color" id="bgColor" value="#ffffff">
+              <input type="text" id="bgColorHex" class="mono" value="#FFFFFF" maxlength="7" autocomplete="off">
+            </div>
           </div>
         </div>
+
         <div class="field">
-          <label for="bgColorHex">Background</label>
-          <div class="color-field">
-            <input type="color" id="bgColor" value="#ffffff">
-            <input type="text" id="bgColorHex" class="mono" value="#FFFFFF" maxlength="7" autocomplete="off">
+          <label for="logoInput">Logo <span class="optional">(optional)</span></label>
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload a logo">
+            <input type="file" id="logoInput" accept="image/*" hidden>
+            <div class="dz-empty" id="dzEmpty">Drop an image here, or click to choose one</div>
+            <div class="dz-filled d-none" id="dzFilled">
+              <img id="logoPreview" alt="Logo preview">
+              <span id="logoName"></span>
+              <button type="button" id="logoRemove" aria-label="Remove logo">&times;</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="field">
-        <label for="logoInput">Logo <span class="optional">(optional)</span></label>
-        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload a logo">
-          <input type="file" id="logoInput" accept="image/*" hidden>
-          <div class="dz-empty" id="dzEmpty">Drop an image here, or click to choose one</div>
-          <div class="dz-filled d-none" id="dzFilled">
-            <img id="logoPreview" alt="Logo preview">
-            <span id="logoName"></span>
-            <button type="button" id="logoRemove" aria-label="Remove logo">&times;</button>
+        <button type="submit" class="btn-generate" id="generateBtn">Generate QR code</button>
+      </form>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="ticket" id="ticket">
+        <div class="perf perf-top"></div>
+        <div class="ticket-body">
+          <div class="qr-stage" id="qrStage">
+            <div class="qr-placeholder" id="qrPlaceholder">
+              <p>Your QR code<br>will appear here</p>
+            </div>
+            <div id="qrcode" class="d-none"></div>
           </div>
+          <div class="ticket-meta mono" id="ticketMeta">—</div>
         </div>
+        <div class="perf perf-bottom"></div>
       </div>
+      <button class="btn-download" id="downloadBtn" disabled>Download PNG</button>
+    </section>
 
-      <button type="submit" class="btn-generate" id="generateBtn">Generate QR code</button>
-    </form>
-  </section>
+  </main>
 
-  <section class="panel preview-panel">
-    <div class="ticket" id="ticket">
-      <div class="perf perf-top"></div>
-      <div class="ticket-body">
-        <div class="qr-stage" id="qrStage">
-          <div class="qr-placeholder" id="qrPlaceholder">
-            <p>Your QR code<br>will appear here</p>
-          </div>
-          <div id="qrcode" class="d-none"></div>
-        </div>
-        <div class="ticket-meta mono" id="ticketMeta">—</div>
-      </div>
-      <div class="perf perf-bottom"></div>
-    </div>
-    <button class="btn-download" id="downloadBtn" disabled>Download PNG</button>
-  </section>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@latest/dist/easy.qrcode.min.js"></script>
 
-</main>
+  <script>
+    (function () {
+      const contentEl = document.getElementById('content');
+      const contentHint = document.getElementById('contentHint');
+      const qrColor = document.getElementById('qrColor');
+      const qrColorHex = document.getElementById('qrColorHex');
+      const bgColor = document.getElementById('bgColor');
+      const bgColorHex = document.getElementById('bgColorHex');
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@latest/dist/easy.qrcode.min.js"></script>
+      const dropzone = document.getElementById('dropzone');
+      const logoInput = document.getElementById('logoInput');
+      const dzEmpty = document.getElementById('dzEmpty');
+      const dzFilled = document.getElementById('dzFilled');
+      const logoPreview = document.getElementById('logoPreview');
+      const logoName = document.getElementById('logoName');
+      const logoRemove = document.getElementById('logoRemove');
 
-<script>
-(function(){
-  const contentEl = document.getElementById('content');
-  const contentHint = document.getElementById('contentHint');
-  const qrColor = document.getElementById('qrColor');
-  const qrColorHex = document.getElementById('qrColorHex');
-  const bgColor = document.getElementById('bgColor');
-  const bgColorHex = document.getElementById('bgColorHex');
+      const form = document.getElementById('qrForm');
+      const qrcodeContainer = document.getElementById('qrcode');
+      const qrPlaceholder = document.getElementById('qrPlaceholder');
+      const ticketMeta = document.getElementById('ticketMeta');
+      const downloadBtn = document.getElementById('downloadBtn');
 
-  const dropzone = document.getElementById('dropzone');
-  const logoInput = document.getElementById('logoInput');
-  const dzEmpty = document.getElementById('dzEmpty');
-  const dzFilled = document.getElementById('dzFilled');
-  const logoPreview = document.getElementById('logoPreview');
-  const logoName = document.getElementById('logoName');
-  const logoRemove = document.getElementById('logoRemove');
+      let logoDataUrl = null;
+      let downloadUrl = null;
+      const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
-  const form = document.getElementById('qrForm');
-  const qrcodeContainer = document.getElementById('qrcode');
-  const qrPlaceholder = document.getElementById('qrPlaceholder');
-  const ticketMeta = document.getElementById('ticketMeta');
-  const downloadBtn = document.getElementById('downloadBtn');
-
-  let logoDataUrl = null;
-  let downloadUrl = null;
-  const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
-
-  /* ---- color <-> hex sync ---- */
-  function wireColorPair(colorInput, hexInput){
-    colorInput.addEventListener('input', () => {
-      hexInput.value = colorInput.value.toUpperCase();
-    });
-    hexInput.addEventListener('input', () => {
-      const v = hexInput.value.trim();
-      if (HEX_RE.test(v)) colorInput.value = v.length === 4 ? expandHex(v) : v;
-    });
-    hexInput.addEventListener('blur', () => {
-      if (!HEX_RE.test(hexInput.value.trim())) hexInput.value = colorInput.value.toUpperCase();
-    });
-  }
-  function expandHex(short){
-    return '#' + short.slice(1).split('').map(c => c + c).join('');
-  }
-  wireColorPair(qrColor, qrColorHex);
-  wireColorPair(bgColor, bgColorHex);
-
-  /* ---- content validation feedback ---- */
-  contentEl.addEventListener('input', () => {
-    contentEl.classList.remove('is-invalid');
-    contentHint.classList.remove('error');
-    contentHint.textContent = 'Works with links, plain text, wifi strings, anything.';
-  });
-
-  /* ---- logo upload ---- */
-  function handleLogoFile(file){
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      logoDataUrl = e.target.result;
-      logoPreview.src = logoDataUrl;
-      logoName.textContent = file.name;
-      dzEmpty.classList.add('d-none');
-      dzFilled.classList.remove('d-none');
-    };
-    reader.readAsDataURL(file);
-  }
-
-  dropzone.addEventListener('click', () => logoInput.click());
-  dropzone.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); logoInput.click(); }
-  });
-  logoInput.addEventListener('change', e => handleLogoFile(e.target.files[0]));
-
-  ['dragenter','dragover'].forEach(evt => {
-    dropzone.addEventListener(evt, e => {
-      e.preventDefault();
-      dropzone.classList.add('drag-over');
-    });
-  });
-  ['dragleave','drop'].forEach(evt => {
-    dropzone.addEventListener(evt, e => {
-      e.preventDefault();
-      dropzone.classList.remove('drag-over');
-    });
-  });
-  dropzone.addEventListener('drop', e => {
-    const file = e.dataTransfer.files && e.dataTransfer.files[0];
-    handleLogoFile(file);
-  });
-
-  logoRemove.addEventListener('click', e => {
-    e.stopPropagation();
-    logoDataUrl = null;
-    logoInput.value = '';
-    dzFilled.classList.add('d-none');
-    dzEmpty.classList.remove('d-none');
-  });
-
-  /* ---- generate ---- */
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const text = contentEl.value.trim();
-
-    if (!text) {
-      contentEl.classList.add('is-invalid');
-      contentHint.classList.add('error');
-      contentHint.textContent = 'Add some content before generating a QR code.';
-      contentEl.focus();
-      return;
-    }
-
-    qrcodeContainer.innerHTML = '';
-
-    const options = {
-      text: text,
-      width: 220,
-      height: 220,
-      colorDark: qrColorHex.value,
-      colorLight: bgColorHex.value,
-      correctLevel: QRCode.CorrectLevel.H,
-      quietZone: 8,
-      onRenderingEnd: function(_opts, dataUrl){
-        downloadUrl = dataUrl;
-        downloadBtn.disabled = false;
+      /* ---- color <-> hex sync ---- */
+      function wireColorPair(colorInput, hexInput) {
+        colorInput.addEventListener('input', () => {
+          hexInput.value = colorInput.value.toUpperCase();
+        });
+        hexInput.addEventListener('input', () => {
+          const v = hexInput.value.trim();
+          if (HEX_RE.test(v)) colorInput.value = v.length === 4 ? expandHex(v) : v;
+        });
+        hexInput.addEventListener('blur', () => {
+          if (!HEX_RE.test(hexInput.value.trim())) hexInput.value = colorInput.value.toUpperCase();
+        });
       }
-    };
+      function expandHex(short) {
+        return '#' + short.slice(1).split('').map(c => c + c).join('');
+      }
+      wireColorPair(qrColor, qrColorHex);
+      wireColorPair(bgColor, bgColorHex);
 
-    if (logoDataUrl) {
-      options.logo = logoDataUrl;
-      options.logoWidth = 48;
-      options.logoHeight = 48;
-      options.logoBackgroundTransparent = false;
-    }
+      /* ---- content validation feedback ---- */
+      contentEl.addEventListener('input', () => {
+        contentEl.classList.remove('is-invalid');
+        contentHint.classList.remove('error');
+        contentHint.textContent = 'Works with links, plain text, wifi strings, anything.';
+      });
 
-    new QRCode(qrcodeContainer, options);
+      /* ---- logo upload ---- */
+      function handleLogoFile(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          logoDataUrl = e.target.result;
+          logoPreview.src = logoDataUrl;
+          logoName.textContent = file.name;
+          dzEmpty.classList.add('d-none');
+          dzFilled.classList.remove('d-none');
+        };
+        reader.readAsDataURL(file);
+      }
 
-    qrPlaceholder.classList.add('d-none');
-    qrcodeContainer.classList.remove('d-none');
-    ticketMeta.textContent = text.length > 34 ? text.slice(0, 34) + '…' : text;
-  });
+      dropzone.addEventListener('click', () => logoInput.click());
+      dropzone.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); logoInput.click(); }
+      });
+      logoInput.addEventListener('change', e => handleLogoFile(e.target.files[0]));
 
-  /* ---- download ---- */
-  downloadBtn.addEventListener('click', () => {
-    if (!downloadUrl) return;
-    const a = document.createElement('a');
-    a.href = downloadUrl;
-    a.download = 'qrsmith-qr-code.png';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  });
-})();
-</script>
+      ['dragenter', 'dragover'].forEach(evt => {
+        dropzone.addEventListener(evt, e => {
+          e.preventDefault();
+          dropzone.classList.add('drag-over');
+        });
+      });
+      ['dragleave', 'drop'].forEach(evt => {
+        dropzone.addEventListener(evt, e => {
+          e.preventDefault();
+          dropzone.classList.remove('drag-over');
+        });
+      });
+      dropzone.addEventListener('drop', e => {
+        const file = e.dataTransfer.files && e.dataTransfer.files[0];
+        handleLogoFile(file);
+      });
+
+      logoRemove.addEventListener('click', e => {
+        e.stopPropagation();
+        logoDataUrl = null;
+        logoInput.value = '';
+        dzFilled.classList.add('d-none');
+        dzEmpty.classList.remove('d-none');
+      });
+
+      /* ---- generate ---- */
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const text = contentEl.value.trim();
+
+        if (!text) {
+          contentEl.classList.add('is-invalid');
+          contentHint.classList.add('error');
+          contentHint.textContent = 'Add some content before generating a QR code.';
+          contentEl.focus();
+          return;
+        }
+
+        qrcodeContainer.innerHTML = '';
+
+        const options = {
+          text: text,
+          width: 220,
+          height: 220,
+          colorDark: qrColorHex.value,
+          colorLight: bgColorHex.value,
+          correctLevel: QRCode.CorrectLevel.H,
+          quietZone: 8,
+          onRenderingEnd: function (_opts, dataUrl) {
+            downloadUrl = dataUrl;
+            downloadBtn.disabled = false;
+          }
+        };
+
+        if (logoDataUrl) {
+          options.logo = logoDataUrl;
+          options.logoWidth = 48;
+          options.logoHeight = 48;
+          options.logoBackgroundTransparent = false;
+        }
+
+        new QRCode(qrcodeContainer, options);
+
+        qrPlaceholder.classList.add('d-none');
+        qrcodeContainer.classList.remove('d-none');
+        ticketMeta.textContent = text.length > 34 ? text.slice(0, 34) + '…' : text;
+      });
+
+      /* ---- download ---- */
+      downloadBtn.addEventListener('click', () => {
+        if (!downloadUrl) return;
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = 'qrsmith-qr-code.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    })();
+  </script>
 
 </body>
+
 </html>
