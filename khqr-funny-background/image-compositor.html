@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Compositor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1721;
+    --panel:#142434;
+    --panel-2:#182a3c;
+    --grid:#1c3350;
+    --text:#dce8f0;
+    --text-dim:#7b93a8;
+    --accent:#5fd4c8;
+    --accent-dim:#3a7c74;
+    --amber:#e8a25c;
+    --border:#28425e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0/32px 32px,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/32px 32px,
+      var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+    padding:28px;
+  }
+  header{
+    max-width:1180px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--border);
+    padding-bottom:16px;
+  }
+  h1{
+    font-size:20px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:0.2px;
+  }
+  header p{
+    margin:0;
+    color:var(--text-dim);
+    font-size:13px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .layout{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:20px;
+  }
+  @media (max-width:820px){
+    .layout{grid-template-columns:1fr;}
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:18px;
+  }
+  .panel + .panel{margin-top:16px;}
+  .field-group{margin-bottom:18px;}
+  .field-group:last-child{margin-bottom:0;}
+  .label{
+    display:block;
+    font-size:12px;
+    color:var(--text-dim);
+    margin-bottom:8px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .upload{
+    position:relative;
+    border:1px dashed var(--border);
+    border-radius:3px;
+    padding:14px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color 0.15s;
+    background:var(--panel-2);
+  }
+  .upload:hover{border-color:var(--accent-dim);}
+  .upload.filled{border-style:solid; border-color:var(--accent-dim);}
+  .upload input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+  }
+  .upload-text{font-size:13px; color:var(--text-dim);}
+  .upload.filled .upload-text{color:var(--accent);}
+  .upload-thumb{
+    width:100%;
+    height:60px;
+    object-fit:contain;
+    margin-bottom:8px;
+    display:none;
+  }
+  .upload.filled .upload-thumb{display:block;}
+  .coord-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .coord-field label{
+    display:block;
+    font-size:11px;
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    margin-bottom:4px;
+  }
+  .coord-field input[type=number]{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    padding:7px 8px;
+    border-radius:3px;
+  }
+  .coord-field input[type=number]:focus{
+    outline:none;
+    border-color:var(--accent);
+  }
+  input[type=range]{
+    width:100%;
+    accent-color:var(--accent);
+  }
+  .scale-readout{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--accent);
+    float:right;
+  }
+  .hint{
+    font-size:12px;
+    color:var(--text-dim);
+    line-height:1.5;
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--border);
+  }
+  .canvas-wrap{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+  }
+  .canvas-stage{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:360px;
+    background:
+      linear-gradient(45deg, #0a141f 25%, transparent 25%) 0 0/16px 16px,
+      linear-gradient(-45deg, #0a141f 25%, transparent 25%) 0 0/16px 16px,
+      linear-gradient(45deg, transparent 75%, #0a141f 75%) 0 0/16px 16px,
+      linear-gradient(-45deg, transparent 75%, #0a141f 75%) 0 0/16px 16px,
+      #0f1d2c;
+    border:1px solid var(--border);
+    border-radius:3px;
+    overflow:auto;
+  }
+  #canvas{
+    max-width:100%;
+    cursor:grab;
+    display:block;
+  }
+  #canvas.dragging{cursor:grabbing;}
+  .placeholder{
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    text-align:center;
+    padding:40px;
+  }
+  .toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:14px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .dims{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .dims span{color:var(--accent);}
+  button.download{
+    background:var(--accent);
+    color:#0d1721;
+    border:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:13px;
+    padding:10px 20px;
+    border-radius:3px;
+    cursor:pointer;
+    transition:background 0.15s;
+  }
+  button.download:hover{background:#7ee3d8;}
+  button.download:disabled{
+    background:var(--border);
+    color:var(--text-dim);
+    cursor:not-allowed;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Image Compositor</h1>
+  <p>drag the overlay in the canvas, or set x / y directly</p>
+</header>
+
+<div class="layout">
+  <div class="side">
+    <div class="panel">
+      <div class="field-group">
+        <span class="label">01 — background</span>
+        <label class="upload" id="bgUpload">
+          <img class="upload-thumb" id="bgThumb">
+          <span class="upload-text" id="bgText">click or drop an image</span>
+          <input type="file" id="bgInput" accept="image/*">
+        </label>
+      </div>
+      <div class="field-group">
+        <span class="label">02 — overlay</span>
+        <label class="upload" id="fgUpload">
+          <img class="upload-thumb" id="fgThumb">
+          <span class="upload-text" id="fgText">click or drop an image</span>
+          <input type="file" id="fgInput" accept="image/*">
+        </label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="field-group">
+        <span class="label">03 — position</span>
+        <div class="coord-row">
+          <div class="coord-field">
+            <label for="xInput">X</label>
+            <input type="number" id="xInput" value="0">
+          </div>
+          <div class="coord-field">
+            <label for="yInput">Y</label>
+            <input type="number" id="yInput" value="0">
+          </div>
+        </div>
+      </div>
+      <div class="field-group">
+        <span class="label">04 — scale <span class="scale-readout" id="scaleReadout">100%</span></span>
+        <input type="range" id="scaleInput" min="5" max="200" value="100">
+      </div>
+      <div class="hint">Coordinates are pixels from the top-left corner of the background, at full export resolution.</div>
+    </div>
+  </div>
+
+  <div class="canvas-wrap">
+    <div class="canvas-stage" id="stage">
+      <canvas id="canvas"></canvas>
+      <div class="placeholder" id="placeholder">upload a background image to begin</div>
+    </div>
+    <div class="toolbar">
+      <div class="dims" id="dims"></div>
+      <button class="download" id="downloadBtn" disabled>save composite (.png)</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const stage = document.getElementById('stage');
+const placeholder = document.getElementById('placeholder');
+const dims = document.getElementById('dims');
+const downloadBtn = document.getElementById('downloadBtn');
+
+const xInput = document.getElementById('xInput');
+const yInput = document.getElementById('yInput');
+const scaleInput = document.getElementById('scaleInput');
+const scaleReadout = document.getElementById('scaleReadout');
+
+let bgImg = null, fgImg = null;
+let pos = {x:0, y:0};
+let scale = 1;
+let dragging = false;
+let dragOffset = {x:0, y:0};
+
+function setupUpload(uploadId, inputId, thumbId, textId, onLoad){
+  const input = document.getElementById(inputId);
+  const upload = document.getElementById(uploadId);
+  const thumb = document.getElementById(thumbId);
+  const text = document.getElementById(textId);
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        onLoad(img);
+        thumb.src = e.target.result;
+        upload.classList.add('filled');
+        text.textContent = file.name;
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+setupUpload('bgUpload','bgInput','bgThumb','bgText', img => {
+  bgImg = img;
+  canvas.width = img.width;
+  canvas.height = img.height;
+  pos.x = 0; pos.y = 0;
+  xInput.value = 0; yInput.value = 0;
+  placeholder.style.display = 'none';
+  draw();
+});
+
+setupUpload('fgUpload','fgInput','fgThumb','fgText', img => {
+  fgImg = img;
+  if(bgImg){
+    pos.x = Math.round((bgImg.width - img.width) / 2);
+    pos.y = Math.round((bgImg.height - img.height) / 2);
+    xInput.value = pos.x; yInput.value = pos.y;
+  }
+  draw();
+});
+
+function draw(){
+  if(!bgImg){
+    downloadBtn.disabled = true;
+    return;
+  }
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(bgImg, 0, 0);
+  if(fgImg){
+    const w = fgImg.width * scale;
+    const h = fgImg.height * scale;
+    ctx.drawImage(fgImg, pos.x, pos.y, w, h);
+    downloadBtn.disabled = false;
+  } else {
+    downloadBtn.disabled = true;
+  }
+  dims.innerHTML = `canvas <span>${canvas.width}×${canvas.height}</span>` +
+    (fgImg ? ` &nbsp;·&nbsp; overlay at <span>${pos.x}, ${pos.y}</span> @ <span>${Math.round(scale*100)}%</span>` : '');
+}
+
+xInput.addEventListener('input', () => { pos.x = parseInt(xInput.value)||0; draw(); });
+yInput.addEventListener('input', () => { pos.y = parseInt(yInput.value)||0; draw(); });
+scaleInput.addEventListener('input', () => {
+  scale = parseInt(scaleInput.value)/100;
+  scaleReadout.textContent = scaleInput.value + '%';
+  draw();
+});
+
+function canvasToImageCoords(clientX, clientY){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  return {
+    x: (clientX - rect.left) * scaleX,
+    y: (clientY - rect.top) * scaleY
+  };
+}
+
+canvas.addEventListener('mousedown', e => {
+  if(!fgImg) return;
+  const p = canvasToImageCoords(e.clientX, e.clientY);
+  const w = fgImg.width * scale, h = fgImg.height * scale;
+  if(p.x >= pos.x && p.x <= pos.x+w && p.y >= pos.y && p.y <= pos.y+h){
+    dragging = true;
+    dragOffset.x = p.x - pos.x;
+    dragOffset.y = p.y - pos.y;
+    canvas.classList.add('dragging');
+  }
+});
+
+window.addEventListener('mousemove', e => {
+  if(!dragging) return;
+  const p = canvasToImageCoords(e.clientX, e.clientY);
+  pos.x = Math.round(p.x - dragOffset.x);
+  pos.y = Math.round(p.y - dragOffset.y);
+  xInput.value = pos.x;
+  yInput.value = pos.y;
+  draw();
+});
+
+window.addEventListener('mouseup', () => {
+  dragging = false;
+  canvas.classList.remove('dragging');
+});
+
+downloadBtn.addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = 'composite.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+</script>
+
+</body>
+</html>
